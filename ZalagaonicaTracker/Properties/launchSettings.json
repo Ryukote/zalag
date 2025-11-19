@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ZalagaonicaTracker": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}
