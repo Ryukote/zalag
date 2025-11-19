@@ -1,0 +1,53 @@
+# Production override for docker-compose
+# Usage: docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+
+version: '3.8'
+
+services:
+  database:
+    restart: always
+    # Don't expose database port to host in production for security
+    ports: []
+    environment:
+      # Production database settings
+      POSTGRES_MAX_CONNECTIONS: 100
+
+  backend:
+    restart: always
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      # Enable detailed errors in production (set to false for security)
+      ASPNETCORE_DETAILEDERRORS: "false"
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+        reservations:
+          cpus: '1'
+          memory: 512M
+
+  frontend:
+    restart: always
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+
+  nginx:
+    restart: always
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+        reservations:
+          cpus: '0.25'
+          memory: 128M

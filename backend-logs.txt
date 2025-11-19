@@ -1,0 +1,1141 @@
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (37ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT EXISTS (
+zalagaonica-backend  |           SELECT 1 FROM pg_catalog.pg_class c
+zalagaonica-backend  |           JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace
+zalagaonica-backend  |           WHERE n.nspname='public' AND
+zalagaonica-backend  |                 c.relname='__EFMigrationsHistory'
+zalagaonica-backend  |       )
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT EXISTS (
+zalagaonica-backend  |           SELECT 1 FROM pg_catalog.pg_class c
+zalagaonica-backend  |           JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace
+zalagaonica-backend  |           WHERE n.nspname='public' AND
+zalagaonica-backend  |                 c.relname='__EFMigrationsHistory'
+zalagaonica-backend  |       )
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (9ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE TABLE "__EFMigrationsHistory" (
+zalagaonica-backend  |           "MigrationId" character varying(150) NOT NULL,
+zalagaonica-backend  |           "ProductVersion" character varying(32) NOT NULL,
+zalagaonica-backend  |           CONSTRAINT "PK___EFMigrationsHistory" PRIMARY KEY ("MigrationId")
+zalagaonica-backend  |       );
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT EXISTS (
+zalagaonica-backend  |           SELECT 1 FROM pg_catalog.pg_class c
+zalagaonica-backend  |           JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace
+zalagaonica-backend  |           WHERE n.nspname='public' AND
+zalagaonica-backend  |                 c.relname='__EFMigrationsHistory'
+zalagaonica-backend  |       )
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT "MigrationId", "ProductVersion"
+zalagaonica-backend  |       FROM "__EFMigrationsHistory"
+zalagaonica-backend  |       ORDER BY "MigrationId";
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Migrations[20402]
+zalagaonica-backend  |       Applying migration '20251116233940_AddInventoryEntities'.
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE TABLE "CashRegisterTransactions" (
+zalagaonica-backend  |           "Id" uuid NOT NULL,
+zalagaonica-backend  |           "Date" timestamp with time zone NOT NULL,
+zalagaonica-backend  |           "Amount" numeric NOT NULL,
+zalagaonica-backend  |           "Type" character varying(30),
+zalagaonica-backend  |           "Description" character varying(200),
+zalagaonica-backend  |           CONSTRAINT "PK_CashRegisterTransactions" PRIMARY KEY ("Id")
+zalagaonica-backend  |       );
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE TABLE "Clients" (
+zalagaonica-backend  |           "Id" uuid NOT NULL,
+zalagaonica-backend  |           "Name" character varying(200) NOT NULL,
+zalagaonica-backend  |           "City" character varying(100) NOT NULL,
+zalagaonica-backend  |           "Address" character varying(200) NOT NULL,
+zalagaonica-backend  |           "IdCardNumber" character varying(50) NOT NULL,
+zalagaonica-backend  |           "Email" character varying(255),
+zalagaonica-backend  |           "Iban" character varying(50),
+zalagaonica-backend  |           "Type" character varying(20) NOT NULL,
+zalagaonica-backend  |           "Status" character varying(20) NOT NULL,
+zalagaonica-backend  |           "CreatedAt" timestamp with time zone NOT NULL,
+zalagaonica-backend  |           "UpdatedAt" timestamp with time zone NOT NULL,
+zalagaonica-backend  |           "PhoneNumber" text,
+zalagaonica-backend  |           CONSTRAINT "PK_Clients" PRIMARY KEY ("Id")
+zalagaonica-backend  |       );
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE TABLE "Customers" (
+zalagaonica-backend  |           "Id" uuid NOT NULL,
+zalagaonica-backend  |           "FullName" character varying(120) NOT NULL,
+zalagaonica-backend  |           "Email" character varying(120),
+zalagaonica-backend  |           "PhoneNumber" character varying(20),
+zalagaonica-backend  |           "Address" character varying(200),
+zalagaonica-backend  |           "CreatedAt" timestamp with time zone NOT NULL,
+zalagaonica-backend  |           "UpdatedAt" timestamp with time zone,
+zalagaonica-backend  |           "Status" character varying(50),
+zalagaonica-backend  |           CONSTRAINT "PK_Customers" PRIMARY KEY ("Id")
+zalagaonica-backend  |       );
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE TABLE "Employees" (
+zalagaonica-backend  |           "Id" uuid NOT NULL,
+zalagaonica-backend  |           "FullName" character varying(100) NOT NULL,
+zalagaonica-backend  |           "Position" character varying(100),
+zalagaonica-backend  |           "Email" character varying(120),
+zalagaonica-backend  |           "Phone" character varying(20),
+zalagaonica-backend  |           "HiredDate" timestamp with time zone NOT NULL,
+zalagaonica-backend  |           "IsActive" boolean NOT NULL,
+zalagaonica-backend  |           CONSTRAINT "PK_Employees" PRIMARY KEY ("Id")
+zalagaonica-backend  |       );
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE TABLE "IncomingDocuments" (
+zalagaonica-backend  |           "Id" uuid NOT NULL,
+zalagaonica-backend  |           "DocumentNumber" character varying(100) NOT NULL,
+zalagaonica-backend  |           "SupplierName" character varying(200),
+zalagaonica-backend  |           "DateReceived" timestamp with time zone NOT NULL,
+zalagaonica-backend  |           "Description" character varying(300),
+zalagaonica-backend  |           CONSTRAINT "PK_IncomingDocuments" PRIMARY KEY ("Id")
+zalagaonica-backend  |       );
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE TABLE "OutputDocumentItems" (
+zalagaonica-backend  |           "Id" uuid NOT NULL,
+zalagaonica-backend  |           "DocumentId" uuid NOT NULL,
+zalagaonica-backend  |           "ArticleId" uuid NOT NULL,
+zalagaonica-backend  |           "Quantity" numeric NOT NULL,
+zalagaonica-backend  |           "Price" numeric NOT NULL,
+zalagaonica-backend  |           CONSTRAINT "PK_OutputDocumentItems" PRIMARY KEY ("Id")
+zalagaonica-backend  |       );
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE TABLE "Payrolls" (
+zalagaonica-backend  |           "Id" uuid NOT NULL,
+zalagaonica-backend  |           "EmployeeId" uuid NOT NULL,
+zalagaonica-backend  |           "Amount" numeric NOT NULL,
+zalagaonica-backend  |           "PaymentDate" timestamp with time zone NOT NULL,
+zalagaonica-backend  |           "Status" character varying(50),
+zalagaonica-backend  |           CONSTRAINT "PK_Payrolls" PRIMARY KEY ("Id")
+zalagaonica-backend  |       );
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE TABLE "ReservationStatuses" (
+zalagaonica-backend  |           "Id" uuid NOT NULL,
+zalagaonica-backend  |           "Name" character varying(50) NOT NULL,
+zalagaonica-backend  |           "Description" character varying(200),
+zalagaonica-backend  |           CONSTRAINT "PK_ReservationStatuses" PRIMARY KEY ("Id")
+zalagaonica-backend  |       );
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE TABLE "Roles" (
+zalagaonica-backend  |           "Id" uuid NOT NULL,
+zalagaonica-backend  |           "Name" character varying(100) NOT NULL,
+zalagaonica-backend  |           "Description" text,
+zalagaonica-backend  |           CONSTRAINT "PK_Roles" PRIMARY KEY ("Id")
+zalagaonica-backend  |       );
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE TABLE "UnitsOfMeasure" (
+zalagaonica-backend  |           "Id" uuid NOT NULL,
+zalagaonica-backend  |           "Code" character varying(50) NOT NULL,
+zalagaonica-backend  |           "Name" character varying(100) NOT NULL,
+zalagaonica-backend  |           CONSTRAINT "PK_UnitsOfMeasure" PRIMARY KEY ("Id")
+zalagaonica-backend  |       );
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE TABLE "Vacations" (
+zalagaonica-backend  |           "Id" uuid NOT NULL,
+zalagaonica-backend  |           "EmployeeId" uuid NOT NULL,
+zalagaonica-backend  |           "StartDate" timestamp with time zone NOT NULL,
+zalagaonica-backend  |           "EndDate" timestamp with time zone NOT NULL,
+zalagaonica-backend  |           "Status" character varying(30),
+zalagaonica-backend  |           CONSTRAINT "PK_Vacations" PRIMARY KEY ("Id")
+zalagaonica-backend  |       );
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE TABLE "Vehicles" (
+zalagaonica-backend  |           "Id" uuid NOT NULL,
+zalagaonica-backend  |           "Make" character varying(100) NOT NULL,
+zalagaonica-backend  |           "Model" character varying(100) NOT NULL,
+zalagaonica-backend  |           "Year" integer NOT NULL,
+zalagaonica-backend  |           "PlateNumber" character varying(50),
+zalagaonica-backend  |           "ClientId" uuid,
+zalagaonica-backend  |           "Status" character varying(30),
+zalagaonica-backend  |           CONSTRAINT "PK_Vehicles" PRIMARY KEY ("Id")
+zalagaonica-backend  |       );
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE TABLE "VehicleStatuses" (
+zalagaonica-backend  |           "Id" uuid NOT NULL,
+zalagaonica-backend  |           "Name" character varying(50) NOT NULL,
+zalagaonica-backend  |           "Description" character varying(150),
+zalagaonica-backend  |           CONSTRAINT "PK_VehicleStatuses" PRIMARY KEY ("Id")
+zalagaonica-backend  |       );
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE TABLE "WarehouseTypes" (
+zalagaonica-backend  |           "Id" uuid NOT NULL,
+zalagaonica-backend  |           "Name" character varying(50) NOT NULL,
+zalagaonica-backend  |           "Description" character varying(200),
+zalagaonica-backend  |           CONSTRAINT "PK_WarehouseTypes" PRIMARY KEY ("Id")
+zalagaonica-backend  |       );
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE TABLE "Pledges" (
+zalagaonica-backend  |           "Id" uuid NOT NULL,
+zalagaonica-backend  |           "ClientId" uuid NOT NULL,
+zalagaonica-backend  |           "ClientName" character varying(200) NOT NULL,
+zalagaonica-backend  |           "ItemName" character varying(300) NOT NULL,
+zalagaonica-backend  |           "ItemDescription" character varying(1000) NOT NULL,
+zalagaonica-backend  |           "EstimatedValue" numeric NOT NULL,
+zalagaonica-backend  |           "LoanAmount" numeric NOT NULL,
+zalagaonica-backend  |           "ReturnAmount" numeric NOT NULL,
+zalagaonica-backend  |           "Period" integer NOT NULL,
+zalagaonica-backend  |           "PledgeDate" timestamp with time zone NOT NULL,
+zalagaonica-backend  |           "RedeemDeadline" timestamp with time zone NOT NULL,
+zalagaonica-backend  |           "Redeemed" boolean NOT NULL,
+zalagaonica-backend  |           "Forfeited" boolean NOT NULL,
+zalagaonica-backend  |           "ItemImagesJson" text NOT NULL,
+zalagaonica-backend  |           "WarrantyFilesJson" text NOT NULL,
+zalagaonica-backend  |           "CreatedAt" timestamp with time zone NOT NULL,
+zalagaonica-backend  |           "UpdatedAt" timestamp with time zone NOT NULL,
+zalagaonica-backend  |           CONSTRAINT "PK_Pledges" PRIMARY KEY ("Id"),
+zalagaonica-backend  |           CONSTRAINT "FK_Pledges_Clients_ClientId" FOREIGN KEY ("ClientId") REFERENCES "Clients" ("Id") ON DELETE CASCADE
+zalagaonica-backend  |       );
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (5ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE TABLE "PurchaseRecords" (
+zalagaonica-backend  |           "Id" uuid NOT NULL,
+zalagaonica-backend  |           "ClientId" uuid NOT NULL,
+zalagaonica-backend  |           "ClientName" character varying(200) NOT NULL,
+zalagaonica-backend  |           "ItemName" character varying(300) NOT NULL,
+zalagaonica-backend  |           "ItemDescription" character varying(1000) NOT NULL,
+zalagaonica-backend  |           "EstimatedValue" numeric NOT NULL,
+zalagaonica-backend  |           "PurchaseAmount" numeric NOT NULL,
+zalagaonica-backend  |           "TotalAmount" numeric NOT NULL,
+zalagaonica-backend  |           "PurchaseDate" timestamp with time zone NOT NULL,
+zalagaonica-backend  |           "PaymentDate" character varying(100) NOT NULL,
+zalagaonica-backend  |           "ItemImagesJson" text NOT NULL,
+zalagaonica-backend  |           "WarrantyFilesJson" text NOT NULL,
+zalagaonica-backend  |           "CreatedAt" timestamp with time zone NOT NULL,
+zalagaonica-backend  |           "UpdatedAt" timestamp with time zone NOT NULL,
+zalagaonica-backend  |           CONSTRAINT "PK_PurchaseRecords" PRIMARY KEY ("Id"),
+zalagaonica-backend  |           CONSTRAINT "FK_PurchaseRecords_Clients_ClientId" FOREIGN KEY ("ClientId") REFERENCES "Clients" ("Id") ON DELETE CASCADE
+zalagaonica-backend  |       );
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE TABLE "Expenses" (
+zalagaonica-backend  |           "Id" uuid NOT NULL,
+zalagaonica-backend  |           "Type" text NOT NULL,
+zalagaonica-backend  |           "Amount" numeric NOT NULL,
+zalagaonica-backend  |           "Description" text,
+zalagaonica-backend  |           "Date" timestamp with time zone NOT NULL,
+zalagaonica-backend  |           "EmployeeId" uuid,
+zalagaonica-backend  |           CONSTRAINT "PK_Expenses" PRIMARY KEY ("Id"),
+zalagaonica-backend  |           CONSTRAINT "FK_Expenses_Employees_EmployeeId" FOREIGN KEY ("EmployeeId") REFERENCES "Employees" ("Id")
+zalagaonica-backend  |       );
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE TABLE "Payments" (
+zalagaonica-backend  |           "Id" uuid NOT NULL,
+zalagaonica-backend  |           "Amount" numeric NOT NULL,
+zalagaonica-backend  |           "Method" text NOT NULL,
+zalagaonica-backend  |           "Description" text,
+zalagaonica-backend  |           "Date" timestamp with time zone NOT NULL,
+zalagaonica-backend  |           "ClientId" uuid,
+zalagaonica-backend  |           "EmployeeId" uuid,
+zalagaonica-backend  |           CONSTRAINT "PK_Payments" PRIMARY KEY ("Id"),
+zalagaonica-backend  |           CONSTRAINT "FK_Payments_Clients_ClientId" FOREIGN KEY ("ClientId") REFERENCES "Clients" ("Id") ON DELETE SET NULL,
+zalagaonica-backend  |           CONSTRAINT "FK_Payments_Employees_EmployeeId" FOREIGN KEY ("EmployeeId") REFERENCES "Employees" ("Id")
+zalagaonica-backend  |       );
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE TABLE "Revenues" (
+zalagaonica-backend  |           "Id" uuid NOT NULL,
+zalagaonica-backend  |           "Amount" numeric NOT NULL,
+zalagaonica-backend  |           "Source" text NOT NULL,
+zalagaonica-backend  |           "Description" text,
+zalagaonica-backend  |           "Date" timestamp with time zone NOT NULL,
+zalagaonica-backend  |           "ClientId" uuid,
+zalagaonica-backend  |           "EmployeeId" uuid,
+zalagaonica-backend  |           CONSTRAINT "PK_Revenues" PRIMARY KEY ("Id"),
+zalagaonica-backend  |           CONSTRAINT "FK_Revenues_Clients_ClientId" FOREIGN KEY ("ClientId") REFERENCES "Clients" ("Id") ON DELETE SET NULL,
+zalagaonica-backend  |           CONSTRAINT "FK_Revenues_Employees_EmployeeId" FOREIGN KEY ("EmployeeId") REFERENCES "Employees" ("Id")
+zalagaonica-backend  |       );
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE TABLE "UserAccounts" (
+zalagaonica-backend  |           "Id" uuid NOT NULL,
+zalagaonica-backend  |           "Username" character varying(100) NOT NULL,
+zalagaonica-backend  |           "Email" character varying(255) NOT NULL,
+zalagaonica-backend  |           "PasswordHash" text NOT NULL,
+zalagaonica-backend  |           "IsActive" boolean NOT NULL,
+zalagaonica-backend  |           "CreatedAt" timestamp with time zone NOT NULL,
+zalagaonica-backend  |           "EmployeeId" uuid,
+zalagaonica-backend  |           CONSTRAINT "PK_UserAccounts" PRIMARY KEY ("Id"),
+zalagaonica-backend  |           CONSTRAINT "FK_UserAccounts_Employees_EmployeeId" FOREIGN KEY ("EmployeeId") REFERENCES "Employees" ("Id") ON DELETE SET NULL
+zalagaonica-backend  |       );
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE TABLE "Warehouses" (
+zalagaonica-backend  |           "Id" uuid NOT NULL,
+zalagaonica-backend  |           "Name" text NOT NULL,
+zalagaonica-backend  |           "Location" text,
+zalagaonica-backend  |           "WarehouseTypeId" uuid,
+zalagaonica-backend  |           CONSTRAINT "PK_Warehouses" PRIMARY KEY ("Id"),
+zalagaonica-backend  |           CONSTRAINT "FK_Warehouses_WarehouseTypes_WarehouseTypeId" FOREIGN KEY ("WarehouseTypeId") REFERENCES "WarehouseTypes" ("Id") ON DELETE SET NULL
+zalagaonica-backend  |       );
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE TABLE "UserRoles" (
+zalagaonica-backend  |           "UserId" uuid NOT NULL,
+zalagaonica-backend  |           "RoleId" uuid NOT NULL,
+zalagaonica-backend  |           CONSTRAINT "PK_UserRoles" PRIMARY KEY ("UserId", "RoleId"),
+zalagaonica-backend  |           CONSTRAINT "FK_UserRoles_Roles_RoleId" FOREIGN KEY ("RoleId") REFERENCES "Roles" ("Id") ON DELETE CASCADE,
+zalagaonica-backend  |           CONSTRAINT "FK_UserRoles_UserAccounts_UserId" FOREIGN KEY ("UserId") REFERENCES "UserAccounts" ("Id") ON DELETE CASCADE
+zalagaonica-backend  |       );
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE TABLE "Articles" (
+zalagaonica-backend  |           "Id" uuid NOT NULL,
+zalagaonica-backend  |           "Name" character varying(300) NOT NULL,
+zalagaonica-backend  |           "Description" text NOT NULL,
+zalagaonica-backend  |           "PurchasePrice" numeric NOT NULL,
+zalagaonica-backend  |           "RetailPrice" numeric NOT NULL,
+zalagaonica-backend  |           "SalePrice" numeric,
+zalagaonica-backend  |           "TaxRate" numeric NOT NULL,
+zalagaonica-backend  |           "Stock" integer NOT NULL,
+zalagaonica-backend  |           "UnitOfMeasureCode" character varying(20) NOT NULL,
+zalagaonica-backend  |           "SupplierName" character varying(200),
+zalagaonica-backend  |           "Group" character varying(100),
+zalagaonica-backend  |           "Status" character varying(20) NOT NULL,
+zalagaonica-backend  |           "WarehouseType" character varying(20) NOT NULL,
+zalagaonica-backend  |           "SaleInfoPrice" numeric,
+zalagaonica-backend  |           "SaleInfoDate" timestamp with time zone,
+zalagaonica-backend  |           "SaleInfoCustomerName" character varying(200),
+zalagaonica-backend  |           "SaleInfoCustomerId" uuid,
+zalagaonica-backend  |           "CreatedAt" timestamp with time zone NOT NULL,
+zalagaonica-backend  |           "UpdatedAt" timestamp with time zone NOT NULL,
+zalagaonica-backend  |           "WarehouseId" uuid,
+zalagaonica-backend  |           "UnitOfMeasureId" uuid,
+zalagaonica-backend  |           CONSTRAINT "PK_Articles" PRIMARY KEY ("Id"),
+zalagaonica-backend  |           CONSTRAINT "FK_Articles_UnitsOfMeasure_UnitOfMeasureId" FOREIGN KEY ("UnitOfMeasureId") REFERENCES "UnitsOfMeasure" ("Id") ON DELETE SET NULL,
+zalagaonica-backend  |           CONSTRAINT "FK_Articles_Warehouses_WarehouseId" FOREIGN KEY ("WarehouseId") REFERENCES "Warehouses" ("Id") ON DELETE SET NULL
+zalagaonica-backend  |       );
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE TABLE "FileUploads" (
+zalagaonica-backend  |           "Id" uuid NOT NULL,
+zalagaonica-backend  |           "FileName" text NOT NULL,
+zalagaonica-backend  |           "Base64" text NOT NULL,
+zalagaonica-backend  |           "ArticleId" uuid,
+zalagaonica-backend  |           "UploadedAt" timestamp with time zone NOT NULL,
+zalagaonica-backend  |           CONSTRAINT "PK_FileUploads" PRIMARY KEY ("Id"),
+zalagaonica-backend  |           CONSTRAINT "FK_FileUploads_Articles_ArticleId" FOREIGN KEY ("ArticleId") REFERENCES "Articles" ("Id")
+zalagaonica-backend  |       );
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE TABLE "GeminiValuations" (
+zalagaonica-backend  |           "Id" uuid NOT NULL,
+zalagaonica-backend  |           "ArticleId" uuid NOT NULL,
+zalagaonica-backend  |           "EstimatedValue" numeric NOT NULL,
+zalagaonica-backend  |           "ModelName" text,
+zalagaonica-backend  |           "CreatedAt" timestamp with time zone NOT NULL,
+zalagaonica-backend  |           CONSTRAINT "PK_GeminiValuations" PRIMARY KEY ("Id"),
+zalagaonica-backend  |           CONSTRAINT "FK_GeminiValuations_Articles_ArticleId" FOREIGN KEY ("ArticleId") REFERENCES "Articles" ("Id") ON DELETE CASCADE
+zalagaonica-backend  |       );
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE TABLE "ItemData" (
+zalagaonica-backend  |           "Id" uuid NOT NULL,
+zalagaonica-backend  |           "ArticleId" uuid NOT NULL,
+zalagaonica-backend  |           "Key" text NOT NULL,
+zalagaonica-backend  |           "Value" text,
+zalagaonica-backend  |           CONSTRAINT "PK_ItemData" PRIMARY KEY ("Id"),
+zalagaonica-backend  |           CONSTRAINT "FK_ItemData_Articles_ArticleId" FOREIGN KEY ("ArticleId") REFERENCES "Articles" ("Id") ON DELETE CASCADE
+zalagaonica-backend  |       );
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE TABLE "Loans" (
+zalagaonica-backend  |           "Id" uuid NOT NULL,
+zalagaonica-backend  |           "ClientId" uuid NOT NULL,
+zalagaonica-backend  |           "ArticleId" uuid NOT NULL,
+zalagaonica-backend  |           "Amount" numeric NOT NULL,
+zalagaonica-backend  |           "InterestRate" numeric NOT NULL,
+zalagaonica-backend  |           "StartDate" timestamp with time zone NOT NULL,
+zalagaonica-backend  |           "EndDate" timestamp with time zone,
+zalagaonica-backend  |           "Status" character varying(50),
+zalagaonica-backend  |           CONSTRAINT "PK_Loans" PRIMARY KEY ("Id"),
+zalagaonica-backend  |           CONSTRAINT "FK_Loans_Articles_ArticleId" FOREIGN KEY ("ArticleId") REFERENCES "Articles" ("Id") ON DELETE SET NULL,
+zalagaonica-backend  |           CONSTRAINT "FK_Loans_Clients_ClientId" FOREIGN KEY ("ClientId") REFERENCES "Clients" ("Id") ON DELETE CASCADE
+zalagaonica-backend  |       );
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE TABLE "Purchases" (
+zalagaonica-backend  |           "Id" uuid NOT NULL,
+zalagaonica-backend  |           "CreatedAt" timestamp with time zone NOT NULL,
+zalagaonica-backend  |           "Amount" numeric NOT NULL,
+zalagaonica-backend  |           "ArticleId" uuid NOT NULL,
+zalagaonica-backend  |           "ClientId" uuid,
+zalagaonica-backend  |           CONSTRAINT "PK_Purchases" PRIMARY KEY ("Id"),
+zalagaonica-backend  |           CONSTRAINT "FK_Purchases_Articles_ArticleId" FOREIGN KEY ("ArticleId") REFERENCES "Articles" ("Id") ON DELETE CASCADE,
+zalagaonica-backend  |           CONSTRAINT "FK_Purchases_Clients_ClientId" FOREIGN KEY ("ClientId") REFERENCES "Clients" ("Id") ON DELETE SET NULL
+zalagaonica-backend  |       );
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE TABLE "Reservations" (
+zalagaonica-backend  |           "Id" uuid NOT NULL,
+zalagaonica-backend  |           "ReservationDate" timestamp with time zone NOT NULL,
+zalagaonica-backend  |           "DepositAmount" numeric NOT NULL,
+zalagaonica-backend  |           "ClientId" uuid NOT NULL,
+zalagaonica-backend  |           "ArticleId" uuid NOT NULL,
+zalagaonica-backend  |           "ReservationStatusId" uuid,
+zalagaonica-backend  |           "StatusId" uuid NOT NULL,
+zalagaonica-backend  |           CONSTRAINT "PK_Reservations" PRIMARY KEY ("Id"),
+zalagaonica-backend  |           CONSTRAINT "FK_Reservations_Articles_ArticleId" FOREIGN KEY ("ArticleId") REFERENCES "Articles" ("Id") ON DELETE CASCADE,
+zalagaonica-backend  |           CONSTRAINT "FK_Reservations_Clients_ClientId" FOREIGN KEY ("ClientId") REFERENCES "Clients" ("Id") ON DELETE CASCADE,
+zalagaonica-backend  |           CONSTRAINT "FK_Reservations_ReservationStatuses_ReservationStatusId" FOREIGN KEY ("ReservationStatusId") REFERENCES "ReservationStatuses" ("Id"),
+zalagaonica-backend  |           CONSTRAINT "FK_Reservations_ReservationStatuses_StatusId" FOREIGN KEY ("StatusId") REFERENCES "ReservationStatuses" ("Id") ON DELETE SET NULL
+zalagaonica-backend  |       );
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE TABLE "Sales" (
+zalagaonica-backend  |           "Id" uuid NOT NULL,
+zalagaonica-backend  |           "CreatedAt" timestamp with time zone NOT NULL,
+zalagaonica-backend  |           "SalePrice" numeric NOT NULL,
+zalagaonica-backend  |           "ArticleId" uuid NOT NULL,
+zalagaonica-backend  |           "ClientId" uuid,
+zalagaonica-backend  |           CONSTRAINT "PK_Sales" PRIMARY KEY ("Id"),
+zalagaonica-backend  |           CONSTRAINT "FK_Sales_Articles_ArticleId" FOREIGN KEY ("ArticleId") REFERENCES "Articles" ("Id") ON DELETE CASCADE,
+zalagaonica-backend  |           CONSTRAINT "FK_Sales_Clients_ClientId" FOREIGN KEY ("ClientId") REFERENCES "Clients" ("Id") ON DELETE SET NULL
+zalagaonica-backend  |       );
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE TABLE "LoanRepayments" (
+zalagaonica-backend  |           "Id" uuid NOT NULL,
+zalagaonica-backend  |           "Amount" numeric NOT NULL,
+zalagaonica-backend  |           "PaymentDate" timestamp with time zone NOT NULL,
+zalagaonica-backend  |           "Note" text,
+zalagaonica-backend  |           "LoanId" uuid NOT NULL,
+zalagaonica-backend  |           CONSTRAINT "PK_LoanRepayments" PRIMARY KEY ("Id"),
+zalagaonica-backend  |           CONSTRAINT "FK_LoanRepayments_Loans_LoanId" FOREIGN KEY ("LoanId") REFERENCES "Loans" ("Id") ON DELETE CASCADE
+zalagaonica-backend  |       );
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE INDEX "IX_Articles_UnitOfMeasureId" ON "Articles" ("UnitOfMeasureId");
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE INDEX "IX_Articles_WarehouseId" ON "Articles" ("WarehouseId");
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE INDEX "IX_Expenses_EmployeeId" ON "Expenses" ("EmployeeId");
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE INDEX "IX_FileUploads_ArticleId" ON "FileUploads" ("ArticleId");
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE INDEX "IX_GeminiValuations_ArticleId" ON "GeminiValuations" ("ArticleId");
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE INDEX "IX_ItemData_ArticleId" ON "ItemData" ("ArticleId");
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE INDEX "IX_LoanRepayments_LoanId" ON "LoanRepayments" ("LoanId");
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE INDEX "IX_Loans_ArticleId" ON "Loans" ("ArticleId");
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE INDEX "IX_Loans_ClientId" ON "Loans" ("ClientId");
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE INDEX "IX_Payments_ClientId" ON "Payments" ("ClientId");
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE INDEX "IX_Payments_EmployeeId" ON "Payments" ("EmployeeId");
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE INDEX "IX_Pledges_ClientId" ON "Pledges" ("ClientId");
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE INDEX "IX_PurchaseRecords_ClientId" ON "PurchaseRecords" ("ClientId");
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE INDEX "IX_Purchases_ArticleId" ON "Purchases" ("ArticleId");
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE INDEX "IX_Purchases_ClientId" ON "Purchases" ("ClientId");
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE INDEX "IX_Reservations_ArticleId" ON "Reservations" ("ArticleId");
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE INDEX "IX_Reservations_ClientId" ON "Reservations" ("ClientId");
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE INDEX "IX_Reservations_ReservationStatusId" ON "Reservations" ("ReservationStatusId");
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE INDEX "IX_Reservations_StatusId" ON "Reservations" ("StatusId");
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE INDEX "IX_Revenues_ClientId" ON "Revenues" ("ClientId");
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE INDEX "IX_Revenues_EmployeeId" ON "Revenues" ("EmployeeId");
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE INDEX "IX_Sales_ArticleId" ON "Sales" ("ArticleId");
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE INDEX "IX_Sales_ClientId" ON "Sales" ("ClientId");
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE UNIQUE INDEX "IX_UserAccounts_EmployeeId" ON "UserAccounts" ("EmployeeId");
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE INDEX "IX_UserRoles_RoleId" ON "UserRoles" ("RoleId");
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       CREATE INDEX "IX_Warehouses_WarehouseTypeId" ON "Warehouses" ("WarehouseTypeId");
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+zalagaonica-backend  |       VALUES ('20251116233940_AddInventoryEntities', '8.0.21');
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Migrations[20402]
+zalagaonica-backend  |       Applying migration '20251117070414_AddVacationTypeField'.
+zalagaonica-backend  | fail: Microsoft.EntityFrameworkCore.Database.Command[20102]
+zalagaonica-backend  |       Failed executing DbCommand (6ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       ALTER TABLE "Vacations" ALTER COLUMN "Status" TYPE integer;
+zalagaonica-backend  |       UPDATE "Vacations" SET "Status" = 0 WHERE "Status" IS NULL;
+zalagaonica-backend  |       ALTER TABLE "Vacations" ALTER COLUMN "Status" SET NOT NULL;
+zalagaonica-backend  |       ALTER TABLE "Vacations" ALTER COLUMN "Status" SET DEFAULT 0;
+zalagaonica-backend  | Unhandled exception. Npgsql.PostgresException (0x80004005): 42804: column "Status" cannot be cast automatically to type integer
+zalagaonica-backend  |    at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+zalagaonica-backend  |    at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+zalagaonica-backend  |    at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlDataReader.NextResult()
+zalagaonica-backend  |    at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlCommand.ExecuteNonQuery(Boolean async, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlCommand.ExecuteNonQuery()
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteNonQuery(RelationalCommandParameterObject parameterObject)
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.Migrations.MigrationCommand.ExecuteNonQuery(IRelationalConnection connection, IReadOnlyDictionary`2 parameterValues)
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.Migrations.Internal.MigrationCommandExecutor.ExecuteNonQuery(IEnumerable`1 migrationCommands, IRelationalConnection connection)
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.Migrations.Internal.Migrator.Migrate(String targetMigration)
+zalagaonica-backend  |    at Npgsql.EntityFrameworkCore.PostgreSQL.Migrations.Internal.NpgsqlMigrator.Migrate(String targetMigration)
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.RelationalDatabaseFacadeExtensions.Migrate(DatabaseFacade databaseFacade)
+zalagaonica-backend  |    at Program.<Main>$(String[] args) in /src/Zalagaonica.Backend/Program.cs:line 122
+zalagaonica-backend  |   Exception data:
+zalagaonica-backend  |     Severity: ERROR
+zalagaonica-backend  |     SqlState: 42804
+zalagaonica-backend  |     MessageText: column "Status" cannot be cast automatically to type integer
+zalagaonica-backend  |     Hint: You might need to specify "USING "Status"::integer".
+zalagaonica-backend  |     File: tablecmds.c
+zalagaonica-backend  |     Line: 12561
+zalagaonica-backend  |     Routine: ATPrepAlterColumnType
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (44ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT EXISTS (
+zalagaonica-backend  |           SELECT 1 FROM pg_catalog.pg_class c
+zalagaonica-backend  |           JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace
+zalagaonica-backend  |           WHERE n.nspname='public' AND
+zalagaonica-backend  |                 c.relname='__EFMigrationsHistory'
+zalagaonica-backend  |       )
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT "MigrationId", "ProductVersion"
+zalagaonica-backend  |       FROM "__EFMigrationsHistory"
+zalagaonica-backend  |       ORDER BY "MigrationId";
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT EXISTS (
+zalagaonica-backend  |           SELECT 1 FROM pg_catalog.pg_class c
+zalagaonica-backend  |           JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace
+zalagaonica-backend  |           WHERE n.nspname='public' AND
+zalagaonica-backend  |                 c.relname='__EFMigrationsHistory'
+zalagaonica-backend  |       )
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT EXISTS (
+zalagaonica-backend  |           SELECT 1 FROM pg_catalog.pg_class c
+zalagaonica-backend  |           JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace
+zalagaonica-backend  |           WHERE n.nspname='public' AND
+zalagaonica-backend  |                 c.relname='__EFMigrationsHistory'
+zalagaonica-backend  |       )
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT "MigrationId", "ProductVersion"
+zalagaonica-backend  |       FROM "__EFMigrationsHistory"
+zalagaonica-backend  |       ORDER BY "MigrationId";
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Migrations[20402]
+zalagaonica-backend  |       Applying migration '20251117070414_AddVacationTypeField'.
+zalagaonica-backend  | fail: Microsoft.EntityFrameworkCore.Database.Command[20102]
+zalagaonica-backend  |       Failed executing DbCommand (9ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       ALTER TABLE "Vacations" ALTER COLUMN "Status" TYPE integer;
+zalagaonica-backend  |       UPDATE "Vacations" SET "Status" = 0 WHERE "Status" IS NULL;
+zalagaonica-backend  |       ALTER TABLE "Vacations" ALTER COLUMN "Status" SET NOT NULL;
+zalagaonica-backend  |       ALTER TABLE "Vacations" ALTER COLUMN "Status" SET DEFAULT 0;
+zalagaonica-backend  | Unhandled exception. Npgsql.PostgresException (0x80004005): 42804: column "Status" cannot be cast automatically to type integer
+zalagaonica-backend  |    at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+zalagaonica-backend  |    at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+zalagaonica-backend  |    at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlDataReader.NextResult()
+zalagaonica-backend  |    at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlCommand.ExecuteNonQuery(Boolean async, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlCommand.ExecuteNonQuery()
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteNonQuery(RelationalCommandParameterObject parameterObject)
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.Migrations.MigrationCommand.ExecuteNonQuery(IRelationalConnection connection, IReadOnlyDictionary`2 parameterValues)
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.Migrations.Internal.MigrationCommandExecutor.ExecuteNonQuery(IEnumerable`1 migrationCommands, IRelationalConnection connection)
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.Migrations.Internal.Migrator.Migrate(String targetMigration)
+zalagaonica-backend  |    at Npgsql.EntityFrameworkCore.PostgreSQL.Migrations.Internal.NpgsqlMigrator.Migrate(String targetMigration)
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.RelationalDatabaseFacadeExtensions.Migrate(DatabaseFacade databaseFacade)
+zalagaonica-backend  |    at Program.<Main>$(String[] args) in /src/Zalagaonica.Backend/Program.cs:line 122
+zalagaonica-backend  |   Exception data:
+zalagaonica-backend  |     Severity: ERROR
+zalagaonica-backend  |     SqlState: 42804
+zalagaonica-backend  |     MessageText: column "Status" cannot be cast automatically to type integer
+zalagaonica-backend  |     Hint: You might need to specify "USING "Status"::integer".
+zalagaonica-backend  |     File: tablecmds.c
+zalagaonica-backend  |     Line: 12561
+zalagaonica-backend  |     Routine: ATPrepAlterColumnType
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (37ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT EXISTS (
+zalagaonica-backend  |           SELECT 1 FROM pg_catalog.pg_class c
+zalagaonica-backend  |           JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace
+zalagaonica-backend  |           WHERE n.nspname='public' AND
+zalagaonica-backend  |                 c.relname='__EFMigrationsHistory'
+zalagaonica-backend  |       )
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT "MigrationId", "ProductVersion"
+zalagaonica-backend  |       FROM "__EFMigrationsHistory"
+zalagaonica-backend  |       ORDER BY "MigrationId";
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT EXISTS (
+zalagaonica-backend  |           SELECT 1 FROM pg_catalog.pg_class c
+zalagaonica-backend  |           JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace
+zalagaonica-backend  |           WHERE n.nspname='public' AND
+zalagaonica-backend  |                 c.relname='__EFMigrationsHistory'
+zalagaonica-backend  |       )
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT EXISTS (
+zalagaonica-backend  |           SELECT 1 FROM pg_catalog.pg_class c
+zalagaonica-backend  |           JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace
+zalagaonica-backend  |           WHERE n.nspname='public' AND
+zalagaonica-backend  |                 c.relname='__EFMigrationsHistory'
+zalagaonica-backend  |       )
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT "MigrationId", "ProductVersion"
+zalagaonica-backend  |       FROM "__EFMigrationsHistory"
+zalagaonica-backend  |       ORDER BY "MigrationId";
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Migrations[20402]
+zalagaonica-backend  |       Applying migration '20251117070414_AddVacationTypeField'.
+zalagaonica-backend  | fail: Microsoft.EntityFrameworkCore.Database.Command[20102]
+zalagaonica-backend  |       Failed executing DbCommand (7ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       ALTER TABLE "Vacations" ALTER COLUMN "Status" TYPE integer;
+zalagaonica-backend  |       UPDATE "Vacations" SET "Status" = 0 WHERE "Status" IS NULL;
+zalagaonica-backend  |       ALTER TABLE "Vacations" ALTER COLUMN "Status" SET NOT NULL;
+zalagaonica-backend  |       ALTER TABLE "Vacations" ALTER COLUMN "Status" SET DEFAULT 0;
+zalagaonica-backend  | Unhandled exception. Npgsql.PostgresException (0x80004005): 42804: column "Status" cannot be cast automatically to type integer
+zalagaonica-backend  |    at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+zalagaonica-backend  |    at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+zalagaonica-backend  |    at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlDataReader.NextResult()
+zalagaonica-backend  |    at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlCommand.ExecuteNonQuery(Boolean async, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlCommand.ExecuteNonQuery()
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteNonQuery(RelationalCommandParameterObject parameterObject)
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.Migrations.MigrationCommand.ExecuteNonQuery(IRelationalConnection connection, IReadOnlyDictionary`2 parameterValues)
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.Migrations.Internal.MigrationCommandExecutor.ExecuteNonQuery(IEnumerable`1 migrationCommands, IRelationalConnection connection)
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.Migrations.Internal.Migrator.Migrate(String targetMigration)
+zalagaonica-backend  |    at Npgsql.EntityFrameworkCore.PostgreSQL.Migrations.Internal.NpgsqlMigrator.Migrate(String targetMigration)
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.RelationalDatabaseFacadeExtensions.Migrate(DatabaseFacade databaseFacade)
+zalagaonica-backend  |    at Program.<Main>$(String[] args) in /src/Zalagaonica.Backend/Program.cs:line 122
+zalagaonica-backend  |   Exception data:
+zalagaonica-backend  |     Severity: ERROR
+zalagaonica-backend  |     SqlState: 42804
+zalagaonica-backend  |     MessageText: column "Status" cannot be cast automatically to type integer
+zalagaonica-backend  |     Hint: You might need to specify "USING "Status"::integer".
+zalagaonica-backend  |     File: tablecmds.c
+zalagaonica-backend  |     Line: 12561
+zalagaonica-backend  |     Routine: ATPrepAlterColumnType
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (37ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT EXISTS (
+zalagaonica-backend  |           SELECT 1 FROM pg_catalog.pg_class c
+zalagaonica-backend  |           JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace
+zalagaonica-backend  |           WHERE n.nspname='public' AND
+zalagaonica-backend  |                 c.relname='__EFMigrationsHistory'
+zalagaonica-backend  |       )
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT "MigrationId", "ProductVersion"
+zalagaonica-backend  |       FROM "__EFMigrationsHistory"
+zalagaonica-backend  |       ORDER BY "MigrationId";
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT EXISTS (
+zalagaonica-backend  |           SELECT 1 FROM pg_catalog.pg_class c
+zalagaonica-backend  |           JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace
+zalagaonica-backend  |           WHERE n.nspname='public' AND
+zalagaonica-backend  |                 c.relname='__EFMigrationsHistory'
+zalagaonica-backend  |       )
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT EXISTS (
+zalagaonica-backend  |           SELECT 1 FROM pg_catalog.pg_class c
+zalagaonica-backend  |           JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace
+zalagaonica-backend  |           WHERE n.nspname='public' AND
+zalagaonica-backend  |                 c.relname='__EFMigrationsHistory'
+zalagaonica-backend  |       )
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT "MigrationId", "ProductVersion"
+zalagaonica-backend  |       FROM "__EFMigrationsHistory"
+zalagaonica-backend  |       ORDER BY "MigrationId";
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Migrations[20402]
+zalagaonica-backend  |       Applying migration '20251117070414_AddVacationTypeField'.
+zalagaonica-backend  | fail: Microsoft.EntityFrameworkCore.Database.Command[20102]
+zalagaonica-backend  |       Failed executing DbCommand (9ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       ALTER TABLE "Vacations" ALTER COLUMN "Status" TYPE integer;
+zalagaonica-backend  |       UPDATE "Vacations" SET "Status" = 0 WHERE "Status" IS NULL;
+zalagaonica-backend  |       ALTER TABLE "Vacations" ALTER COLUMN "Status" SET NOT NULL;
+zalagaonica-backend  |       ALTER TABLE "Vacations" ALTER COLUMN "Status" SET DEFAULT 0;
+zalagaonica-backend  | Unhandled exception. Npgsql.PostgresException (0x80004005): 42804: column "Status" cannot be cast automatically to type integer
+zalagaonica-backend  |    at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+zalagaonica-backend  |    at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+zalagaonica-backend  |    at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlDataReader.NextResult()
+zalagaonica-backend  |    at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlCommand.ExecuteNonQuery(Boolean async, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlCommand.ExecuteNonQuery()
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteNonQuery(RelationalCommandParameterObject parameterObject)
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.Migrations.MigrationCommand.ExecuteNonQuery(IRelationalConnection connection, IReadOnlyDictionary`2 parameterValues)
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.Migrations.Internal.MigrationCommandExecutor.ExecuteNonQuery(IEnumerable`1 migrationCommands, IRelationalConnection connection)
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.Migrations.Internal.Migrator.Migrate(String targetMigration)
+zalagaonica-backend  |    at Npgsql.EntityFrameworkCore.PostgreSQL.Migrations.Internal.NpgsqlMigrator.Migrate(String targetMigration)
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.RelationalDatabaseFacadeExtensions.Migrate(DatabaseFacade databaseFacade)
+zalagaonica-backend  |    at Program.<Main>$(String[] args) in /src/Zalagaonica.Backend/Program.cs:line 122
+zalagaonica-backend  |   Exception data:
+zalagaonica-backend  |     Severity: ERROR
+zalagaonica-backend  |     SqlState: 42804
+zalagaonica-backend  |     MessageText: column "Status" cannot be cast automatically to type integer
+zalagaonica-backend  |     Hint: You might need to specify "USING "Status"::integer".
+zalagaonica-backend  |     File: tablecmds.c
+zalagaonica-backend  |     Line: 12561
+zalagaonica-backend  |     Routine: ATPrepAlterColumnType
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (36ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT EXISTS (
+zalagaonica-backend  |           SELECT 1 FROM pg_catalog.pg_class c
+zalagaonica-backend  |           JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace
+zalagaonica-backend  |           WHERE n.nspname='public' AND
+zalagaonica-backend  |                 c.relname='__EFMigrationsHistory'
+zalagaonica-backend  |       )
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT "MigrationId", "ProductVersion"
+zalagaonica-backend  |       FROM "__EFMigrationsHistory"
+zalagaonica-backend  |       ORDER BY "MigrationId";
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT EXISTS (
+zalagaonica-backend  |           SELECT 1 FROM pg_catalog.pg_class c
+zalagaonica-backend  |           JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace
+zalagaonica-backend  |           WHERE n.nspname='public' AND
+zalagaonica-backend  |                 c.relname='__EFMigrationsHistory'
+zalagaonica-backend  |       )
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT EXISTS (
+zalagaonica-backend  |           SELECT 1 FROM pg_catalog.pg_class c
+zalagaonica-backend  |           JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace
+zalagaonica-backend  |           WHERE n.nspname='public' AND
+zalagaonica-backend  |                 c.relname='__EFMigrationsHistory'
+zalagaonica-backend  |       )
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT "MigrationId", "ProductVersion"
+zalagaonica-backend  |       FROM "__EFMigrationsHistory"
+zalagaonica-backend  |       ORDER BY "MigrationId";
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Migrations[20402]
+zalagaonica-backend  |       Applying migration '20251117070414_AddVacationTypeField'.
+zalagaonica-backend  | fail: Microsoft.EntityFrameworkCore.Database.Command[20102]
+zalagaonica-backend  |       Failed executing DbCommand (7ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       ALTER TABLE "Vacations" ALTER COLUMN "Status" TYPE integer;
+zalagaonica-backend  |       UPDATE "Vacations" SET "Status" = 0 WHERE "Status" IS NULL;
+zalagaonica-backend  |       ALTER TABLE "Vacations" ALTER COLUMN "Status" SET NOT NULL;
+zalagaonica-backend  |       ALTER TABLE "Vacations" ALTER COLUMN "Status" SET DEFAULT 0;
+zalagaonica-backend  | Unhandled exception. Npgsql.PostgresException (0x80004005): 42804: column "Status" cannot be cast automatically to type integer
+zalagaonica-backend  |    at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+zalagaonica-backend  |    at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+zalagaonica-backend  |    at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlDataReader.NextResult()
+zalagaonica-backend  |    at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlCommand.ExecuteNonQuery(Boolean async, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlCommand.ExecuteNonQuery()
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteNonQuery(RelationalCommandParameterObject parameterObject)
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.Migrations.MigrationCommand.ExecuteNonQuery(IRelationalConnection connection, IReadOnlyDictionary`2 parameterValues)
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.Migrations.Internal.MigrationCommandExecutor.ExecuteNonQuery(IEnumerable`1 migrationCommands, IRelationalConnection connection)
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.Migrations.Internal.Migrator.Migrate(String targetMigration)
+zalagaonica-backend  |    at Npgsql.EntityFrameworkCore.PostgreSQL.Migrations.Internal.NpgsqlMigrator.Migrate(String targetMigration)
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.RelationalDatabaseFacadeExtensions.Migrate(DatabaseFacade databaseFacade)
+zalagaonica-backend  |    at Program.<Main>$(String[] args) in /src/Zalagaonica.Backend/Program.cs:line 122
+zalagaonica-backend  |   Exception data:
+zalagaonica-backend  |     Severity: ERROR
+zalagaonica-backend  |     SqlState: 42804
+zalagaonica-backend  |     MessageText: column "Status" cannot be cast automatically to type integer
+zalagaonica-backend  |     Hint: You might need to specify "USING "Status"::integer".
+zalagaonica-backend  |     File: tablecmds.c
+zalagaonica-backend  |     Line: 12561
+zalagaonica-backend  |     Routine: ATPrepAlterColumnType
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (36ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT EXISTS (
+zalagaonica-backend  |           SELECT 1 FROM pg_catalog.pg_class c
+zalagaonica-backend  |           JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace
+zalagaonica-backend  |           WHERE n.nspname='public' AND
+zalagaonica-backend  |                 c.relname='__EFMigrationsHistory'
+zalagaonica-backend  |       )
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT "MigrationId", "ProductVersion"
+zalagaonica-backend  |       FROM "__EFMigrationsHistory"
+zalagaonica-backend  |       ORDER BY "MigrationId";
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT EXISTS (
+zalagaonica-backend  |           SELECT 1 FROM pg_catalog.pg_class c
+zalagaonica-backend  |           JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace
+zalagaonica-backend  |           WHERE n.nspname='public' AND
+zalagaonica-backend  |                 c.relname='__EFMigrationsHistory'
+zalagaonica-backend  |       )
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT EXISTS (
+zalagaonica-backend  |           SELECT 1 FROM pg_catalog.pg_class c
+zalagaonica-backend  |           JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace
+zalagaonica-backend  |           WHERE n.nspname='public' AND
+zalagaonica-backend  |                 c.relname='__EFMigrationsHistory'
+zalagaonica-backend  |       )
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT "MigrationId", "ProductVersion"
+zalagaonica-backend  |       FROM "__EFMigrationsHistory"
+zalagaonica-backend  |       ORDER BY "MigrationId";
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Migrations[20402]
+zalagaonica-backend  |       Applying migration '20251117070414_AddVacationTypeField'.
+zalagaonica-backend  | fail: Microsoft.EntityFrameworkCore.Database.Command[20102]
+zalagaonica-backend  |       Failed executing DbCommand (7ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       ALTER TABLE "Vacations" ALTER COLUMN "Status" TYPE integer;
+zalagaonica-backend  |       UPDATE "Vacations" SET "Status" = 0 WHERE "Status" IS NULL;
+zalagaonica-backend  |       ALTER TABLE "Vacations" ALTER COLUMN "Status" SET NOT NULL;
+zalagaonica-backend  |       ALTER TABLE "Vacations" ALTER COLUMN "Status" SET DEFAULT 0;
+zalagaonica-backend  | Unhandled exception. Npgsql.PostgresException (0x80004005): 42804: column "Status" cannot be cast automatically to type integer
+zalagaonica-backend  |    at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+zalagaonica-backend  |    at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+zalagaonica-backend  |    at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlDataReader.NextResult()
+zalagaonica-backend  |    at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlCommand.ExecuteNonQuery(Boolean async, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlCommand.ExecuteNonQuery()
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteNonQuery(RelationalCommandParameterObject parameterObject)
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.Migrations.MigrationCommand.ExecuteNonQuery(IRelationalConnection connection, IReadOnlyDictionary`2 parameterValues)
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.Migrations.Internal.MigrationCommandExecutor.ExecuteNonQuery(IEnumerable`1 migrationCommands, IRelationalConnection connection)
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.Migrations.Internal.Migrator.Migrate(String targetMigration)
+zalagaonica-backend  |    at Npgsql.EntityFrameworkCore.PostgreSQL.Migrations.Internal.NpgsqlMigrator.Migrate(String targetMigration)
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.RelationalDatabaseFacadeExtensions.Migrate(DatabaseFacade databaseFacade)
+zalagaonica-backend  |    at Program.<Main>$(String[] args) in /src/Zalagaonica.Backend/Program.cs:line 122
+zalagaonica-backend  |   Exception data:
+zalagaonica-backend  |     Severity: ERROR
+zalagaonica-backend  |     SqlState: 42804
+zalagaonica-backend  |     MessageText: column "Status" cannot be cast automatically to type integer
+zalagaonica-backend  |     Hint: You might need to specify "USING "Status"::integer".
+zalagaonica-backend  |     File: tablecmds.c
+zalagaonica-backend  |     Line: 12561
+zalagaonica-backend  |     Routine: ATPrepAlterColumnType
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (36ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT EXISTS (
+zalagaonica-backend  |           SELECT 1 FROM pg_catalog.pg_class c
+zalagaonica-backend  |           JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace
+zalagaonica-backend  |           WHERE n.nspname='public' AND
+zalagaonica-backend  |                 c.relname='__EFMigrationsHistory'
+zalagaonica-backend  |       )
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT "MigrationId", "ProductVersion"
+zalagaonica-backend  |       FROM "__EFMigrationsHistory"
+zalagaonica-backend  |       ORDER BY "MigrationId";
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT EXISTS (
+zalagaonica-backend  |           SELECT 1 FROM pg_catalog.pg_class c
+zalagaonica-backend  |           JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace
+zalagaonica-backend  |           WHERE n.nspname='public' AND
+zalagaonica-backend  |                 c.relname='__EFMigrationsHistory'
+zalagaonica-backend  |       )
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT EXISTS (
+zalagaonica-backend  |           SELECT 1 FROM pg_catalog.pg_class c
+zalagaonica-backend  |           JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace
+zalagaonica-backend  |           WHERE n.nspname='public' AND
+zalagaonica-backend  |                 c.relname='__EFMigrationsHistory'
+zalagaonica-backend  |       )
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT "MigrationId", "ProductVersion"
+zalagaonica-backend  |       FROM "__EFMigrationsHistory"
+zalagaonica-backend  |       ORDER BY "MigrationId";
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Migrations[20402]
+zalagaonica-backend  |       Applying migration '20251117070414_AddVacationTypeField'.
+zalagaonica-backend  | fail: Microsoft.EntityFrameworkCore.Database.Command[20102]
+zalagaonica-backend  |       Failed executing DbCommand (7ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       ALTER TABLE "Vacations" ALTER COLUMN "Status" TYPE integer;
+zalagaonica-backend  |       UPDATE "Vacations" SET "Status" = 0 WHERE "Status" IS NULL;
+zalagaonica-backend  |       ALTER TABLE "Vacations" ALTER COLUMN "Status" SET NOT NULL;
+zalagaonica-backend  |       ALTER TABLE "Vacations" ALTER COLUMN "Status" SET DEFAULT 0;
+zalagaonica-backend  | Unhandled exception. Npgsql.PostgresException (0x80004005): 42804: column "Status" cannot be cast automatically to type integer
+zalagaonica-backend  |    at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+zalagaonica-backend  |    at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+zalagaonica-backend  |    at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlDataReader.NextResult()
+zalagaonica-backend  |    at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlCommand.ExecuteNonQuery(Boolean async, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlCommand.ExecuteNonQuery()
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteNonQuery(RelationalCommandParameterObject parameterObject)
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.Migrations.MigrationCommand.ExecuteNonQuery(IRelationalConnection connection, IReadOnlyDictionary`2 parameterValues)
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.Migrations.Internal.MigrationCommandExecutor.ExecuteNonQuery(IEnumerable`1 migrationCommands, IRelationalConnection connection)
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.Migrations.Internal.Migrator.Migrate(String targetMigration)
+zalagaonica-backend  |    at Npgsql.EntityFrameworkCore.PostgreSQL.Migrations.Internal.NpgsqlMigrator.Migrate(String targetMigration)
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.RelationalDatabaseFacadeExtensions.Migrate(DatabaseFacade databaseFacade)
+zalagaonica-backend  |    at Program.<Main>$(String[] args) in /src/Zalagaonica.Backend/Program.cs:line 122
+zalagaonica-backend  |   Exception data:
+zalagaonica-backend  |     Severity: ERROR
+zalagaonica-backend  |     SqlState: 42804
+zalagaonica-backend  |     MessageText: column "Status" cannot be cast automatically to type integer
+zalagaonica-backend  |     Hint: You might need to specify "USING "Status"::integer".
+zalagaonica-backend  |     File: tablecmds.c
+zalagaonica-backend  |     Line: 12561
+zalagaonica-backend  |     Routine: ATPrepAlterColumnType
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (37ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT EXISTS (
+zalagaonica-backend  |           SELECT 1 FROM pg_catalog.pg_class c
+zalagaonica-backend  |           JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace
+zalagaonica-backend  |           WHERE n.nspname='public' AND
+zalagaonica-backend  |                 c.relname='__EFMigrationsHistory'
+zalagaonica-backend  |       )
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT "MigrationId", "ProductVersion"
+zalagaonica-backend  |       FROM "__EFMigrationsHistory"
+zalagaonica-backend  |       ORDER BY "MigrationId";
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT EXISTS (
+zalagaonica-backend  |           SELECT 1 FROM pg_catalog.pg_class c
+zalagaonica-backend  |           JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace
+zalagaonica-backend  |           WHERE n.nspname='public' AND
+zalagaonica-backend  |                 c.relname='__EFMigrationsHistory'
+zalagaonica-backend  |       )
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT EXISTS (
+zalagaonica-backend  |           SELECT 1 FROM pg_catalog.pg_class c
+zalagaonica-backend  |           JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace
+zalagaonica-backend  |           WHERE n.nspname='public' AND
+zalagaonica-backend  |                 c.relname='__EFMigrationsHistory'
+zalagaonica-backend  |       )
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT "MigrationId", "ProductVersion"
+zalagaonica-backend  |       FROM "__EFMigrationsHistory"
+zalagaonica-backend  |       ORDER BY "MigrationId";
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Migrations[20402]
+zalagaonica-backend  |       Applying migration '20251117070414_AddVacationTypeField'.
+zalagaonica-backend  | fail: Microsoft.EntityFrameworkCore.Database.Command[20102]
+zalagaonica-backend  |       Failed executing DbCommand (7ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       ALTER TABLE "Vacations" ALTER COLUMN "Status" TYPE integer;
+zalagaonica-backend  |       UPDATE "Vacations" SET "Status" = 0 WHERE "Status" IS NULL;
+zalagaonica-backend  |       ALTER TABLE "Vacations" ALTER COLUMN "Status" SET NOT NULL;
+zalagaonica-backend  |       ALTER TABLE "Vacations" ALTER COLUMN "Status" SET DEFAULT 0;
+zalagaonica-backend  | Unhandled exception. Npgsql.PostgresException (0x80004005): 42804: column "Status" cannot be cast automatically to type integer
+zalagaonica-backend  |    at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+zalagaonica-backend  |    at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+zalagaonica-backend  |    at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlDataReader.NextResult()
+zalagaonica-backend  |    at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlCommand.ExecuteNonQuery(Boolean async, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlCommand.ExecuteNonQuery()
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteNonQuery(RelationalCommandParameterObject parameterObject)
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.Migrations.MigrationCommand.ExecuteNonQuery(IRelationalConnection connection, IReadOnlyDictionary`2 parameterValues)
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.Migrations.Internal.MigrationCommandExecutor.ExecuteNonQuery(IEnumerable`1 migrationCommands, IRelationalConnection connection)
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.Migrations.Internal.Migrator.Migrate(String targetMigration)
+zalagaonica-backend  |    at Npgsql.EntityFrameworkCore.PostgreSQL.Migrations.Internal.NpgsqlMigrator.Migrate(String targetMigration)
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.RelationalDatabaseFacadeExtensions.Migrate(DatabaseFacade databaseFacade)
+zalagaonica-backend  |    at Program.<Main>$(String[] args) in /src/Zalagaonica.Backend/Program.cs:line 122
+zalagaonica-backend  |   Exception data:
+zalagaonica-backend  |     Severity: ERROR
+zalagaonica-backend  |     SqlState: 42804
+zalagaonica-backend  |     MessageText: column "Status" cannot be cast automatically to type integer
+zalagaonica-backend  |     Hint: You might need to specify "USING "Status"::integer".
+zalagaonica-backend  |     File: tablecmds.c
+zalagaonica-backend  |     Line: 12561
+zalagaonica-backend  |     Routine: ATPrepAlterColumnType
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (36ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT EXISTS (
+zalagaonica-backend  |           SELECT 1 FROM pg_catalog.pg_class c
+zalagaonica-backend  |           JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace
+zalagaonica-backend  |           WHERE n.nspname='public' AND
+zalagaonica-backend  |                 c.relname='__EFMigrationsHistory'
+zalagaonica-backend  |       )
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT "MigrationId", "ProductVersion"
+zalagaonica-backend  |       FROM "__EFMigrationsHistory"
+zalagaonica-backend  |       ORDER BY "MigrationId";
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT EXISTS (
+zalagaonica-backend  |           SELECT 1 FROM pg_catalog.pg_class c
+zalagaonica-backend  |           JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace
+zalagaonica-backend  |           WHERE n.nspname='public' AND
+zalagaonica-backend  |                 c.relname='__EFMigrationsHistory'
+zalagaonica-backend  |       )
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT EXISTS (
+zalagaonica-backend  |           SELECT 1 FROM pg_catalog.pg_class c
+zalagaonica-backend  |           JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace
+zalagaonica-backend  |           WHERE n.nspname='public' AND
+zalagaonica-backend  |                 c.relname='__EFMigrationsHistory'
+zalagaonica-backend  |       )
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT "MigrationId", "ProductVersion"
+zalagaonica-backend  |       FROM "__EFMigrationsHistory"
+zalagaonica-backend  |       ORDER BY "MigrationId";
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Migrations[20402]
+zalagaonica-backend  |       Applying migration '20251117070414_AddVacationTypeField'.
+zalagaonica-backend  | fail: Microsoft.EntityFrameworkCore.Database.Command[20102]
+zalagaonica-backend  |       Failed executing DbCommand (7ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       ALTER TABLE "Vacations" ALTER COLUMN "Status" TYPE integer;
+zalagaonica-backend  |       UPDATE "Vacations" SET "Status" = 0 WHERE "Status" IS NULL;
+zalagaonica-backend  |       ALTER TABLE "Vacations" ALTER COLUMN "Status" SET NOT NULL;
+zalagaonica-backend  |       ALTER TABLE "Vacations" ALTER COLUMN "Status" SET DEFAULT 0;
+zalagaonica-backend  | Unhandled exception. Npgsql.PostgresException (0x80004005): 42804: column "Status" cannot be cast automatically to type integer
+zalagaonica-backend  |    at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+zalagaonica-backend  |    at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+zalagaonica-backend  |    at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlDataReader.NextResult()
+zalagaonica-backend  |    at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlCommand.ExecuteNonQuery(Boolean async, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlCommand.ExecuteNonQuery()
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteNonQuery(RelationalCommandParameterObject parameterObject)
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.Migrations.MigrationCommand.ExecuteNonQuery(IRelationalConnection connection, IReadOnlyDictionary`2 parameterValues)
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.Migrations.Internal.MigrationCommandExecutor.ExecuteNonQuery(IEnumerable`1 migrationCommands, IRelationalConnection connection)
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.Migrations.Internal.Migrator.Migrate(String targetMigration)
+zalagaonica-backend  |    at Npgsql.EntityFrameworkCore.PostgreSQL.Migrations.Internal.NpgsqlMigrator.Migrate(String targetMigration)
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.RelationalDatabaseFacadeExtensions.Migrate(DatabaseFacade databaseFacade)
+zalagaonica-backend  |    at Program.<Main>$(String[] args) in /src/Zalagaonica.Backend/Program.cs:line 122
+zalagaonica-backend  |   Exception data:
+zalagaonica-backend  |     Severity: ERROR
+zalagaonica-backend  |     SqlState: 42804
+zalagaonica-backend  |     MessageText: column "Status" cannot be cast automatically to type integer
+zalagaonica-backend  |     Hint: You might need to specify "USING "Status"::integer".
+zalagaonica-backend  |     File: tablecmds.c
+zalagaonica-backend  |     Line: 12561
+zalagaonica-backend  |     Routine: ATPrepAlterColumnType
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (35ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT EXISTS (
+zalagaonica-backend  |           SELECT 1 FROM pg_catalog.pg_class c
+zalagaonica-backend  |           JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace
+zalagaonica-backend  |           WHERE n.nspname='public' AND
+zalagaonica-backend  |                 c.relname='__EFMigrationsHistory'
+zalagaonica-backend  |       )
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT "MigrationId", "ProductVersion"
+zalagaonica-backend  |       FROM "__EFMigrationsHistory"
+zalagaonica-backend  |       ORDER BY "MigrationId";
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT EXISTS (
+zalagaonica-backend  |           SELECT 1 FROM pg_catalog.pg_class c
+zalagaonica-backend  |           JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace
+zalagaonica-backend  |           WHERE n.nspname='public' AND
+zalagaonica-backend  |                 c.relname='__EFMigrationsHistory'
+zalagaonica-backend  |       )
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT EXISTS (
+zalagaonica-backend  |           SELECT 1 FROM pg_catalog.pg_class c
+zalagaonica-backend  |           JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace
+zalagaonica-backend  |           WHERE n.nspname='public' AND
+zalagaonica-backend  |                 c.relname='__EFMigrationsHistory'
+zalagaonica-backend  |       )
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+zalagaonica-backend  |       Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       SELECT "MigrationId", "ProductVersion"
+zalagaonica-backend  |       FROM "__EFMigrationsHistory"
+zalagaonica-backend  |       ORDER BY "MigrationId";
+zalagaonica-backend  | info: Microsoft.EntityFrameworkCore.Migrations[20402]
+zalagaonica-backend  |       Applying migration '20251117070414_AddVacationTypeField'.
+zalagaonica-backend  | fail: Microsoft.EntityFrameworkCore.Database.Command[20102]
+zalagaonica-backend  |       Failed executing DbCommand (7ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+zalagaonica-backend  |       ALTER TABLE "Vacations" ALTER COLUMN "Status" TYPE integer;
+zalagaonica-backend  |       UPDATE "Vacations" SET "Status" = 0 WHERE "Status" IS NULL;
+zalagaonica-backend  |       ALTER TABLE "Vacations" ALTER COLUMN "Status" SET NOT NULL;
+zalagaonica-backend  |       ALTER TABLE "Vacations" ALTER COLUMN "Status" SET DEFAULT 0;
+zalagaonica-backend  | Unhandled exception. Npgsql.PostgresException (0x80004005): 42804: column "Status" cannot be cast automatically to type integer
+zalagaonica-backend  |    at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+zalagaonica-backend  |    at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+zalagaonica-backend  |    at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlDataReader.NextResult()
+zalagaonica-backend  |    at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlCommand.ExecuteNonQuery(Boolean async, CancellationToken cancellationToken)
+zalagaonica-backend  |    at Npgsql.NpgsqlCommand.ExecuteNonQuery()
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteNonQuery(RelationalCommandParameterObject parameterObject)
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.Migrations.MigrationCommand.ExecuteNonQuery(IRelationalConnection connection, IReadOnlyDictionary`2 parameterValues)
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.Migrations.Internal.MigrationCommandExecutor.ExecuteNonQuery(IEnumerable`1 migrationCommands, IRelationalConnection connection)
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.Migrations.Internal.Migrator.Migrate(String targetMigration)
+zalagaonica-backend  |    at Npgsql.EntityFrameworkCore.PostgreSQL.Migrations.Internal.NpgsqlMigrator.Migrate(String targetMigration)
+zalagaonica-backend  |    at Microsoft.EntityFrameworkCore.RelationalDatabaseFacadeExtensions.Migrate(DatabaseFacade databaseFacade)
+zalagaonica-backend  |    at Program.<Main>$(String[] args) in /src/Zalagaonica.Backend/Program.cs:line 122
+zalagaonica-backend  |   Exception data:
+zalagaonica-backend  |     Severity: ERROR
+zalagaonica-backend  |     SqlState: 42804
+zalagaonica-backend  |     MessageText: column "Status" cannot be cast automatically to type integer
+zalagaonica-backend  |     Hint: You might need to specify "USING "Status"::integer".
+zalagaonica-backend  |     File: tablecmds.c
+zalagaonica-backend  |     Line: 12561
+zalagaonica-backend  |     Routine: ATPrepAlterColumnType

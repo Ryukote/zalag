@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: zalagaonica-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ZalagaonicaDB
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5431:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d ZalagaonicaDB"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - zalagaonica-network
+
+  backend:
+    build:
+      context: ./Zalagaonica.Backend
+      dockerfile: Zalagaonica.Backend/Dockerfile
+    container_name: zalagaonica-backend
+    restart: unless-stopped
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:5000
+      ConnectionStrings__DefaultConnection: Host=postgres;Port=5432;Database=ZalagaonicaDB;Username=postgres;Password=postgres;
+      Jwt__Key: SuperTajniJWTKljuc123!
+    ports:
+      - "5000:5000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - zalagaonica-network
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  zalagaonica-network:
+    driver: bridge

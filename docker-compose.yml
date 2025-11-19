@@ -1,0 +1,113 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  database:
+    image: postgres:16-alpine
+    container_name: zalagaonica-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ZalagaonicaDB
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres123}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "0.0.0.0:5431:5432"
+    networks:
+      - zalagaonica-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d ZalagaonicaDB"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # Backend API (.NET 8)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: zalagaonica-backend
+    restart: unless-stopped
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_URLS: http://+:80
+      ConnectionStrings__DefaultConnection: "Host=database;Port=5432;Database=ZalagaonicaDB;Username=postgres;Password=${DB_PASSWORD:-postgres123};Include Error Detail=true"
+      Jwt__Key: ${JWT_SECRET:-SuperTajniJWTKljuc123!Change_This_In_Production}
+      Jwt__Issuer: ${JWT_ISSUER:-zalagaonica.hr}
+      Jwt__Audience: ${JWT_AUDIENCE:-zalagaonica-app}
+      Fiskalizacija__BaseUri: ${FISKALIZACIJA_BASE_URI:-https://api.fiskalizacija.hr}
+      Fiskalizacija__AuthToken: ${FISKALIZACIJA_AUTH_TOKEN:-}
+    ports:
+      - "0.0.0.0:5000:80"
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - zalagaonica-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:80/api/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  # Frontend (React)
+  frontend:
+    build:
+      context: ./zalagaonica-web
+      dockerfile: Dockerfile
+      args:
+        REACT_APP_API_URL: ${REACT_APP_API_URL:-/api}
+    container_name: zalagaonica-frontend
+    restart: unless-stopped
+    environment:
+      REACT_APP_API_URL: ${REACT_APP_API_URL:-/api}
+    ports:
+      - "0.0.0.0:3000:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - zalagaonica-network
+    healthcheck:
+      test: ["CMD-SHELL", "wget --quiet --tries=1 --spider http://localhost:80/ || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+  # Nginx Reverse Proxy
+  nginx:
+    image: nginx:alpine
+    container_name: zalagaonica-nginx
+    restart: unless-stopped
+    ports:
+      - "0.0.0.0:${NGINX_PORT:-3333}:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+    depends_on:
+      frontend:
+        condition: service_healthy
+      backend:
+        condition: service_healthy
+    networks:
+      - zalagaonica-network
+    healthcheck:
+      test: ["CMD-SHELL", "wget --quiet --tries=1 --spider http://localhost:80/health || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+networks:
+  zalagaonica-network:
+    driver: bridge
+    name: zalagaonica-network
+
+volumes:
+  postgres_data:
+    name: zalagaonica-postgres-data
