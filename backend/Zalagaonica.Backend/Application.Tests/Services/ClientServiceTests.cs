@@ -1,3 +1,4 @@
+using Application.Services;
 using Domain.Entities;
 using FluentAssertions;
 using Infrastructure;

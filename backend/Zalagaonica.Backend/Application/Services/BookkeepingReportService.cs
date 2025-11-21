@@ -21,10 +21,10 @@ namespace Application.Services
 
             // Ukupna prodaja
             var sales = await _context.Sales
-                .Where(s => s.SaleDate >= startDate && s.SaleDate <= endDate)
+                .Where(s => s.CreatedAt >= startDate && s.CreatedAt <= endDate)
                 .ToListAsync();
 
-            var totalSales = sales.Sum(s => s.TotalAmount);
+            var totalSales = sales.Sum(s => s.SalePrice);
             var totalSalesWithTax = totalSales * 1.25m; // PDV 25%
             var totalTax = totalSalesWithTax - totalSales;
 
@@ -175,11 +175,11 @@ namespace Application.Services
 
             // Prodaja s PDV-om
             var sales = await _context.Sales
-                .Where(s => s.SaleDate >= startDate && s.SaleDate <= endDate)
+                .Where(s => s.CreatedAt >= startDate && s.CreatedAt <= endDate)
                 .ToListAsync();
 
             var taxRate = 0.25m; // PDV 25% u Hrvatskoj
-            var totalSalesWithoutTax = sales.Sum(s => s.TotalAmount);
+            var totalSalesWithoutTax = sales.Sum(s => s.SalePrice);
             var totalTax = totalSalesWithoutTax * taxRate;
             var totalSalesWithTax = totalSalesWithoutTax + totalTax;
 

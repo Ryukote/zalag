@@ -40,23 +40,19 @@ namespace Application.Tests.Services
             _context.Sales.AddRange(
                 new Sale
                 {
-                    Id = Guid.NewGuid().ToString(),
-                    SaleDate = startDate.AddDays(5),
-                    TotalAmount = 1000m,
-                    ArticleId = Guid.NewGuid().ToString(),
-                    ClientId = Guid.NewGuid().ToString(),
-                    Quantity = 1,
-                    UnitPrice = 1000m
+                    Id = Guid.NewGuid(),
+                    CreatedAt = startDate.AddDays(5),
+                    SalePrice = 1000m,
+                    ArticleId = Guid.NewGuid(),
+                    ClientId = Guid.NewGuid()
                 },
                 new Sale
                 {
-                    Id = Guid.NewGuid().ToString(),
-                    SaleDate = startDate.AddDays(10),
-                    TotalAmount = 500m,
-                    ArticleId = Guid.NewGuid().ToString(),
-                    ClientId = Guid.NewGuid().ToString(),
-                    Quantity = 1,
-                    UnitPrice = 500m
+                    Id = Guid.NewGuid(),
+                    CreatedAt = startDate.AddDays(10),
+                    SalePrice = 500m,
+                    ArticleId = Guid.NewGuid(),
+                    ClientId = Guid.NewGuid()
                 }
             );
 
@@ -104,23 +100,19 @@ namespace Application.Tests.Services
             _context.Sales.AddRange(
                 new Sale
                 {
-                    Id = Guid.NewGuid().ToString(),
-                    SaleDate = startDate.AddDays(5),
-                    TotalAmount = 1000m,
-                    ArticleId = Guid.NewGuid().ToString(),
-                    ClientId = Guid.NewGuid().ToString(),
-                    Quantity = 1,
-                    UnitPrice = 1000m
+                    Id = Guid.NewGuid(),
+                    CreatedAt = startDate.AddDays(5),
+                    SalePrice = 1000m,
+                    ArticleId = Guid.NewGuid(),
+                    ClientId = Guid.NewGuid()
                 },
                 new Sale
                 {
-                    Id = Guid.NewGuid().ToString(),
-                    SaleDate = startDate.AddDays(15),
-                    TotalAmount = 2000m,
-                    ArticleId = Guid.NewGuid().ToString(),
-                    ClientId = Guid.NewGuid().ToString(),
-                    Quantity = 1,
-                    UnitPrice = 2000m
+                    Id = Guid.NewGuid(),
+                    CreatedAt = startDate.AddDays(15),
+                    SalePrice = 2000m,
+                    ArticleId = Guid.NewGuid(),
+                    ClientId = Guid.NewGuid()
                 }
             );
 
