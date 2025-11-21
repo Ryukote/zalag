@@ -77,6 +77,8 @@ builder.Services.AddScoped<PurchaseService>();
 builder.Services.AddScoped<UserManagementService>();
 builder.Services.AddScoped<AnalyticsService>();
 builder.Services.AddScoped<UnifiedDocumentSearchService>();
+builder.Services.AddScoped<BookkeepingReportService>();
+builder.Services.AddScoped<BookkeepingPdfService>();
 
 
 // HttpClientFactory za vanjske HTTP pozive (npr. fiskalizacija, procjena)
