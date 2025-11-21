@@ -11,35 +11,38 @@ namespace Application.Validators
                 .NotEmpty().WithMessage("Ime klijenta je obavezno")
                 .MaximumLength(200).WithMessage("Ime ne smije biti duže od 200 znakova");
 
-            RuleFor(x => x.Oib)
-                .NotEmpty().WithMessage("OIB je obavezan")
-                .Length(11).WithMessage("OIB mora imati točno 11 znakova")
-                .Matches(@"^\d{11}$").WithMessage("OIB mora sadržavati samo brojeve");
+            RuleFor(x => x.IdCardNumber)
+                .NotEmpty().WithMessage("Broj osobne / OIB je obavezan")
+                .MaximumLength(50).WithMessage("Broj osobne / OIB ne smije biti dulji od 50 znakova")
+                .Must(oib => oib.Length == 11 && oib.All(char.IsDigit) || oib.Length <= 50)
+                .WithMessage("OIB mora imati točno 11 brojčanih znakova ili unesite broj osobne");
 
             RuleFor(x => x.Address)
-                .MaximumLength(300).WithMessage("Adresa ne smije biti duža od 300 znakova")
-                .When(x => !string.IsNullOrEmpty(x.Address));
+                .NotEmpty().WithMessage("Adresa je obavezna")
+                .MaximumLength(200).WithMessage("Adresa ne smije biti duža od 200 znakova");
 
             RuleFor(x => x.City)
-                .MaximumLength(100).WithMessage("Grad ne smije biti dulji od 100 znakova")
-                .When(x => !string.IsNullOrEmpty(x.City));
-
-            RuleFor(x => x.PostalCode)
-                .MaximumLength(10).WithMessage("Poštanski broj ne smije biti dulji od 10 znakova")
-                .When(x => !string.IsNullOrEmpty(x.PostalCode));
-
-            RuleFor(x => x.Phone)
-                .MaximumLength(20).WithMessage("Telefon ne smije biti dulji od 20 znakova")
-                .When(x => !string.IsNullOrEmpty(x.Phone));
+                .NotEmpty().WithMessage("Grad je obavezan")
+                .MaximumLength(100).WithMessage("Grad ne smije biti dulji od 100 znakova");
 
             RuleFor(x => x.Email)
                 .EmailAddress().WithMessage("Neispravan format email adrese")
-                .MaximumLength(100).WithMessage("Email ne smije biti dulji od 100 znakova")
+                .MaximumLength(255).WithMessage("Email ne smije biti dulji od 255 znakova")
                 .When(x => !string.IsNullOrEmpty(x.Email));
 
-            RuleFor(x => x.IdCardNumber)
-                .MaximumLength(20).WithMessage("Broj osobne ne smije biti dulji od 20 znakova")
-                .When(x => !string.IsNullOrEmpty(x.IdCardNumber));
+            RuleFor(x => x.Iban)
+                .MaximumLength(50).WithMessage("IBAN ne smije biti dulji od 50 znakova")
+                .When(x => !string.IsNullOrEmpty(x.Iban));
+
+            RuleFor(x => x.Type)
+                .NotEmpty().WithMessage("Tip klijenta je obavezan")
+                .Must(type => type == "individual" || type == "legal")
+                .WithMessage("Tip mora biti 'individual' ili 'legal'");
+
+            RuleFor(x => x.Status)
+                .NotEmpty().WithMessage("Status je obavezan")
+                .Must(status => status == "active" || status == "inactive")
+                .WithMessage("Status mora biti 'active' ili 'inactive'");
         }
     }
 }

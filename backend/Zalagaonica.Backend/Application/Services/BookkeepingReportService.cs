@@ -30,7 +30,7 @@ namespace Application.Services
 
             // Ukupan otkup (pledges)
             var pledges = await _context.Pledges
-                .Where(p => p.StartDate >= startDate && p.StartDate <= endDate)
+                .Where(p => p.PledgeDate >= startDate && p.PledgeDate <= endDate)
                 .ToListAsync();
 
             var totalPledgeAmount = pledges.Sum(p => p.LoanAmount);
@@ -122,32 +122,33 @@ namespace Application.Services
         {
             var pledges = await _context.Pledges
                 .Include(p => p.Client)
-                .Where(p => p.StartDate >= startDate && p.StartDate <= endDate)
-                .OrderBy(p => p.StartDate)
+                .Where(p => p.PledgeDate >= startDate && p.PledgeDate <= endDate)
+                .OrderBy(p => p.PledgeDate)
                 .ToListAsync();
 
-            var activePledges = pledges.Count(p => p.Status == "aktivan");
-            var expiredPledges = pledges.Count(p => p.Status == "istekao");
-            var redeemedPledges = pledges.Count(p => p.Status == "otkupljen");
-            var forfeitedPledges = pledges.Count(p => p.Status == "prodan");
+            var now = DateTime.UtcNow;
+            var activePledges = pledges.Count(p => !p.Redeemed && !p.Forfeited && p.RedeemDeadline >= now);
+            var expiredPledges = pledges.Count(p => !p.Redeemed && !p.Forfeited && p.RedeemDeadline < now);
+            var redeemedPledges = pledges.Count(p => p.Redeemed);
+            var forfeitedPledges = pledges.Count(p => p.Forfeited);
 
             var totalLoanAmount = pledges.Sum(p => p.LoanAmount);
             var totalEstimatedValue = pledges.Sum(p => p.EstimatedValue);
 
             var pledgeDetails = pledges.Select(p => new PledgeDetailDto
             {
-                StartDate = p.StartDate,
-                EndDate = p.EndDate,
-                ClientName = p.Client.Name,
-                ClientOib = p.Client.Oib,
+                StartDate = p.PledgeDate,
+                EndDate = p.RedeemDeadline,
+                ClientName = p.Client?.Name ?? p.ClientName,
+                ClientOib = p.Client?.IdCardNumber ?? "N/A",
                 ItemName = p.ItemName,
                 ItemDescription = p.ItemDescription,
                 EstimatedValue = p.EstimatedValue,
                 LoanAmount = p.LoanAmount,
-                InterestRate = p.InterestRate,
-                Status = p.Status,
-                Weight = p.Weight,
-                Fineness = p.Fineness
+                InterestRate = 0m, // Interest rate not tracked in current model
+                Status = p.Redeemed ? "otkupljen" : p.Forfeited ? "prodan" : (p.RedeemDeadline < now ? "istekao" : "aktivan"),
+                Weight = null, // Weight not tracked in current model
+                Fineness = null // Fineness not tracked in current model
             }).ToList();
 
             return new PledgeReportDto
@@ -184,7 +185,7 @@ namespace Application.Services
 
             // Otkup (nabava) - nije oporezivo
             var pledges = await _context.Pledges
-                .Where(p => p.StartDate >= startDate && p.StartDate <= endDate)
+                .Where(p => p.PledgeDate >= startDate && p.PledgeDate <= endDate)
                 .ToListAsync();
 
             var totalPurchases = pledges.Sum(p => p.LoanAmount);
