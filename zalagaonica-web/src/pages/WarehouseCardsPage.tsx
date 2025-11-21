@@ -1,55 +1,63 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AppLayout } from '../components/layout/AppLayout';
-import { RectangleStackIcon, PlusIcon, EyeIcon, ArrowUpOnSquareIcon, ArrowDownOnSquareIcon } from '@heroicons/react/24/outline';
-
-interface WarehouseCard {
-  id: string;
-  articleCode: string;
-  articleName: string;
-  warehouse: string;
-  currentStock: number;
-  reservedStock: number;
-  availableStock: number;
-  unitOfMeasure: string;
-  lastMovement: string;
-}
+import { RectangleStackIcon, PlusIcon, EyeIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline';
+import LoadingSpinner from '../components/ui/LoadingSpinner';
+import { warehouseCardApi, WarehouseCard } from '../services/warehouseCardApi';
 
 export const WarehouseCardsPage: React.FC = () => {
-  const [cards, setCards] = useState<WarehouseCard[]>([
-    {
-      id: '1',
-      articleCode: 'ART-001',
-      articleName: 'Zlatna narukvica 14K',
-      warehouse: 'Zalagaonica (ZG3)',
-      currentStock: 25,
-      reservedStock: 3,
-      availableStock: 22,
-      unitOfMeasure: 'kom',
-      lastMovement: '2025-01-15'
-    },
-    {
-      id: '2',
-      articleCode: 'ART-002',
-      articleName: 'Srebrna ogrlica',
-      warehouse: 'Zalagaonica (ZG3)',
-      currentStock: 50,
-      reservedStock: 5,
-      availableStock: 45,
-      unitOfMeasure: 'kom',
-      lastMovement: '2025-01-14'
-    }
-  ]);
+  const [cards, setCards] = useState<WarehouseCard[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const getStockColor = (available: number, total: number) => {
-    const percentage = (available / total) * 100;
-    if (percentage < 20) return 'text-red-600';
-    if (percentage < 50) return 'text-yellow-600';
+  useEffect(() => {
+    loadCards();
+  }, []);
+
+  const loadCards = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const data = await warehouseCardApi.getAll();
+      setCards(data);
+    } catch (err: any) {
+      console.error('Error loading warehouse cards:', err);
+      setError(err.message || 'Greška pri učitavanju kartica skladišta');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getBalanceColor = (balance: number) => {
+    if (balance < 10) return 'text-red-600';
+    if (balance < 50) return 'text-yellow-600';
     return 'text-green-600';
   };
+
+  if (loading) {
+    return (
+      <AppLayout>
+        <LoadingSpinner fullScreen message="Učitavanje kartica skladišta..." />
+      </AppLayout>
+    );
+  }
 
   return (
     <AppLayout>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {error && (
+          <div className="mb-4 bg-red-50 border-l-4 border-red-400 p-4">
+            <div className="flex">
+              <ExclamationCircleIcon className="h-5 w-5 text-red-400 mr-2" />
+              <div>
+                <p className="text-sm text-red-700">{error}</p>
+                <button onClick={loadCards} className="text-sm text-red-600 underline mt-1">
+                  Pokušaj ponovno
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         <div className="flex justify-between items-center mb-6">
           <div>
             <h1 className="text-3xl font-bold text-gray-900 flex items-center">
@@ -57,7 +65,7 @@ export const WarehouseCardsPage: React.FC = () => {
               Skladište - Kartice
             </h1>
             <p className="mt-2 text-sm text-gray-600">
-              Pregled kartica skladišta po artiklima
+              Povijest kretanja artikala po skladištu
             </p>
           </div>
           <button className="flex items-center px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
@@ -71,25 +79,22 @@ export const WarehouseCardsPage: React.FC = () => {
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Šifra artikla
+                  Datum
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Naziv artikla
+                  Artikl
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Skladište
+                  Dokument
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Ulaz
+                </th>
+                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Izlaz
+                </th>
+                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Stanje
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Rezervirano
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Raspoloživo
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Zadnje kretanje
                 </th>
                 <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Akcije
@@ -99,47 +104,38 @@ export const WarehouseCardsPage: React.FC = () => {
             <tbody className="bg-white divide-y divide-gray-200">
               {cards.map((card) => (
                 <tr key={card.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    {card.articleCode}
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {new Date(card.date).toLocaleDateString('hr-HR')}
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-500">
-                    {card.articleName}
+                  <td className="px-6 py-4 text-sm text-gray-900">
+                    <div className="font-medium">{card.articleName}</div>
+                    {card.notes && <div className="text-xs text-gray-400">{card.notes}</div>}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {card.warehouse}
+                    <div>{card.documentType}</div>
+                    <div className="text-xs text-gray-400">{card.documentNumber}</div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
-                    {card.currentStock} {card.unitOfMeasure}
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-green-600 font-medium">
+                    {card.inQuantity > 0 ? `+${card.inQuantity}` : ''}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {card.reservedStock} {card.unitOfMeasure}
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-red-600 font-medium">
+                    {card.outQuantity > 0 ? `-${card.outQuantity}` : ''}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm">
-                    <span className={`font-semibold ${getStockColor(card.availableStock, card.currentStock)}`}>
-                      {card.availableStock} {card.unitOfMeasure}
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-right">
+                    <span className={`font-semibold ${getBalanceColor(card.balance)}`}>
+                      {card.balance}
                     </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {new Date(card.lastMovement).toLocaleDateString('hr-HR')}
-                  </td>
                   <td className="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
-                    <div className="flex justify-center items-center space-x-2">
-                      <button className="text-indigo-600 hover:text-indigo-900" title="Pregledaj karticu">
-                        <EyeIcon className="h-5 w-5" />
-                      </button>
-                      <button className="text-green-600 hover:text-green-900" title="Ulaz">
-                        <ArrowDownOnSquareIcon className="h-5 w-5" />
-                      </button>
-                      <button className="text-red-600 hover:text-red-900" title="Izlaz">
-                        <ArrowUpOnSquareIcon className="h-5 w-5" />
-                      </button>
-                    </div>
+                    <button className="text-indigo-600 hover:text-indigo-900" title="Pregledaj">
+                      <EyeIcon className="h-5 w-5" />
+                    </button>
                   </td>
                 </tr>
               ))}
               {cards.length === 0 && (
                 <tr>
-                  <td colSpan={8} className="text-center py-8 text-gray-500">
+                  <td colSpan={7} className="text-center py-8 text-gray-500">
                     Nema zapisa o karticama skladišta.
                   </td>
                 </tr>

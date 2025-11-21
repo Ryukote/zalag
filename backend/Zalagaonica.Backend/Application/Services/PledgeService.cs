@@ -114,7 +114,48 @@ namespace Application.Services
             pledge.Forfeited = true;
             pledge.UpdatedAt = DateTime.UtcNow;
 
-            // TODO: Transfer item to main warehouse as Article
+            // Transfer item to main warehouse as Article
+            var mainWarehouse = await _context.Warehouses
+                .FirstOrDefaultAsync(w => w.Type == "main" || w.Name.ToLower().Contains("glavno"));
+
+            var article = new Article
+            {
+                Id = Guid.NewGuid(),
+                Name = pledge.ItemName,
+                Description = pledge.ItemDescription ?? string.Empty,
+                PurchasePrice = pledge.LoanAmount,
+                RetailPrice = pledge.EstimatedValue,
+                SalePrice = pledge.EstimatedValue,
+                TaxRate = 25m, // Croatian standard VAT rate
+                Stock = 1,
+                Status = "available",
+                WarehouseType = "main",
+                WarehouseId = mainWarehouse?.Id,
+                Group = "Forfeited Pledges",
+                SupplierName = pledge.ClientName,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
+            };
+
+            _context.Articles.Add(article);
+
+            // Create warehouse card entry for tracking
+            var warehouseCard = new WarehouseCard
+            {
+                Id = Guid.NewGuid(),
+                ArticleId = article.Id,
+                ArticleName = article.Name,
+                Date = DateTime.UtcNow,
+                DocumentType = "Forfeit",
+                DocumentNumber = $"FORF-{pledge.Id.ToString()[..8]}",
+                InQuantity = 1,
+                OutQuantity = 0,
+                Balance = 1,
+                Notes = $"Item forfeited from pledge. Client: {pledge.ClientName}",
+                CreatedAt = DateTime.UtcNow
+            };
+
+            _context.WarehouseCards.Add(warehouseCard);
 
             await _context.SaveChangesAsync();
             return true;

@@ -28,6 +28,8 @@ import WarehouseCardsPage from './pages/WarehouseCardsPage';
 import CustomerDebtsPage from './pages/CustomerDebtsPage';
 import InventoryPage from './pages/InventoryPage';
 import EndOfWorkPage from './pages/EndOfWorkPage';
+import UnifiedDocumentsPage from './pages/UnifiedDocumentsPage';
+import AdminDashboardPage from './pages/AdminDashboardPage';
 
 function App() {
   return (
@@ -35,6 +37,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<DashboardPage />} />
+          <Route path="/admin-dashboard" element={<AdminDashboardPage />} />
           <Route path="/login" element={<LoginForm onLogin={(token) => {/* implementacija login */}} />} />
           <Route path="/komitenti" element={<ClientPage />} />
           <Route path="/artikli" element={<ArticleListPage />} />
@@ -59,6 +62,7 @@ function App() {
           <Route path="/kupci-zaduzenja" element={<CustomerDebtsPage />} />
           <Route path="/inventura" element={<InventoryPage />} />
           <Route path="/kraj-rada" element={<EndOfWorkPage />} />
+          <Route path="/pretraga-dokumenata" element={<UnifiedDocumentsPage />} />
           <Route path="/reports/otkupni-blok/:id" element={<ReportPageWrapper type="otkupni-blok" />} />
           <Route path="/reports/racun-o-isplati/:id" element={<ReportPageWrapper type="racun-o-isplati" />} />
           <Route path="/reports/zahtjev-procjenu/:id" element={<ReportPageWrapper type="zahtjev-procjenu" />} />
