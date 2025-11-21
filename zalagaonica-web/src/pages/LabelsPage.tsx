@@ -1,39 +1,71 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AppLayout } from '../components/layout/AppLayout';
-import { TicketIcon, PlusIcon, PrinterIcon, DocumentDuplicateIcon } from '@heroicons/react/24/outline';
-
-interface Label {
-  id: string;
-  articleCode: string;
-  articleName: string;
-  price: number;
-  barcode: string;
-  quantity: number;
-}
+import { TicketIcon, PlusIcon, PrinterIcon, DocumentDuplicateIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline';
+import LoadingSpinner from '../components/ui/LoadingSpinner';
+import { labelApi, Label } from '../services/labelApi';
 
 export const LabelsPage: React.FC = () => {
-  const [labels, setLabels] = useState<Label[]>([
-    {
-      id: '1',
-      articleCode: 'ART-001',
-      articleName: 'Zlatna narukvica 14K',
-      price: 2500,
-      barcode: '3850001234567',
-      quantity: 10
-    }
-  ]);
+  const [labels, setLabels] = useState<Label[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const handlePrint = (label: Label) => {
-    alert(`Ispis naljepnice za: ${label.articleName}`);
+  useEffect(() => {
+    loadLabels();
+  }, []);
+
+  const loadLabels = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const data = await labelApi.getAll();
+      setLabels(data);
+    } catch (err: any) {
+      console.error('Error loading labels:', err);
+      setError(err.message || 'Greška pri učitavanju naljepnica');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handlePrint = async (label: Label) => {
+    try {
+      await labelApi.markAsPrinted(label.id);
+      alert(`Ispis naljepnice za: ${label.articleName}`);
+      await loadLabels();
+    } catch (err: any) {
+      alert('Greška pri ispisu: ' + (err.message || 'Nepoznata greška'));
+    }
   };
 
   const handlePrintAll = () => {
     alert(`Ispis svih naljepnica (${labels.length})`);
   };
 
+  if (loading) {
+    return (
+      <AppLayout>
+        <LoadingSpinner fullScreen message="Učitavanje naljepnica..." />
+      </AppLayout>
+    );
+  }
+
   return (
     <AppLayout>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {error && (
+          <div className="mb-4 bg-red-50 border-l-4 border-red-400 p-4">
+            <div className="flex">
+              <ExclamationCircleIcon className="h-5 w-5 text-red-400 mr-2" />
+              <div>
+                <p className="text-sm text-red-700">{error}</p>
+                <button onClick={loadLabels} className="text-sm text-red-600 underline mt-1">
+                  Pokušaj ponovno
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         <div className="flex justify-between items-center mb-6">
           <div>
             <h1 className="text-3xl font-bold text-gray-900 flex items-center">

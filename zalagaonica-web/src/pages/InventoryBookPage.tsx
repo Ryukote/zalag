@@ -1,58 +1,68 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AppLayout } from '../components/layout/AppLayout';
-import { BookOpenIcon, PlusIcon, PrinterIcon, EyeIcon } from '@heroicons/react/24/outline';
-
-interface InventoryBookEntry {
-  id: string;
-  date: string;
-  entryNumber: string;
-  articleCode: string;
-  articleName: string;
-  quantitySold: number;
-  salePrice: number;
-  totalSale: number;
-  cashier: string;
-}
+import { BookOpenIcon, PlusIcon, PrinterIcon, EyeIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline';
+import LoadingSpinner from '../components/ui/LoadingSpinner';
+import { inventoryBookApi, InventoryBook } from '../services/inventoryBookApi';
 
 export const InventoryBookPage: React.FC = () => {
-  const [entries, setEntries] = useState<InventoryBookEntry[]>([
-    {
-      id: '1',
-      date: '2025-01-15',
-      entryNumber: 'KB-001',
-      articleCode: 'ART-001',
-      articleName: 'Zlatna narukvica 14K',
-      quantitySold: 1,
-      salePrice: 2500,
-      totalSale: 2500,
-      cashier: 'Ana Anić'
-    },
-    {
-      id: '2',
-      date: '2025-01-15',
-      entryNumber: 'KB-002',
-      articleCode: 'ART-002',
-      articleName: 'Srebrna ogrlica',
-      quantitySold: 2,
-      salePrice: 450,
-      totalSale: 900,
-      cashier: 'Ana Anić'
-    }
-  ]);
+  const [entries, setEntries] = useState<InventoryBook[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const totalSales = entries.reduce((sum, entry) => sum + entry.totalSale, 0);
+  useEffect(() => {
+    loadEntries();
+  }, []);
+
+  const loadEntries = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const data = await inventoryBookApi.getAll();
+      setEntries(data);
+    } catch (err: any) {
+      console.error('Error loading inventory book entries:', err);
+      setError(err.message || 'Greška pri učitavanju knjige popisa');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const totalIn = entries.reduce((sum, entry) => sum + entry.inQuantity, 0);
+  const totalOut = entries.reduce((sum, entry) => sum + entry.outQuantity, 0);
+
+  if (loading) {
+    return (
+      <AppLayout>
+        <LoadingSpinner fullScreen message="Učitavanje knjige popisa..." />
+      </AppLayout>
+    );
+  }
 
   return (
     <AppLayout>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {error && (
+          <div className="mb-4 bg-red-50 border-l-4 border-red-400 p-4">
+            <div className="flex">
+              <ExclamationCircleIcon className="h-5 w-5 text-red-400 mr-2" />
+              <div>
+                <p className="text-sm text-red-700">{error}</p>
+                <button onClick={loadEntries} className="text-sm text-red-600 underline mt-1">
+                  Pokušaj ponovno
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         <div className="flex justify-between items-center mb-6">
           <div>
             <h1 className="text-3xl font-bold text-gray-900 flex items-center">
               <BookOpenIcon className="h-8 w-8 mr-3 text-indigo-600" />
-              Knjiga popisa (Dnevnik maloprodaje)
+              Knjiga popisa (KPO)
             </h1>
             <p className="mt-2 text-sm text-gray-600">
-              Evidencija maloprodajnog prometa
+              Evidencija kretanja artikala u skladištu
             </p>
           </div>
           <div className="flex space-x-2">
@@ -71,18 +81,16 @@ export const InventoryBookPage: React.FC = () => {
         <div className="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-lg shadow-lg p-6 mb-6 text-white">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <div className="text-sm opacity-90">Ukupno prodaja danas</div>
+              <div className="text-sm opacity-90">Ukupno zapisa</div>
               <div className="text-3xl font-bold">{entries.length}</div>
             </div>
             <div>
-              <div className="text-sm opacity-90">Ukupan promet</div>
-              <div className="text-3xl font-bold">{totalSales.toFixed(2)} HRK</div>
+              <div className="text-sm opacity-90">Ukupan ulaz</div>
+              <div className="text-3xl font-bold">{totalIn} kom</div>
             </div>
             <div>
-              <div className="text-sm opacity-90">Prosječna prodaja</div>
-              <div className="text-3xl font-bold">
-                {entries.length > 0 ? (totalSales / entries.length).toFixed(2) : '0.00'} HRK
-              </div>
+              <div className="text-sm opacity-90">Ukupan izlaz</div>
+              <div className="text-3xl font-bold">{totalOut} kom</div>
             </div>
           </div>
         </div>
@@ -92,25 +100,22 @@ export const InventoryBookPage: React.FC = () => {
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Broj unosa
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Datum
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Artikl
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Količina
+                  Dokument
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Cijena
+                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Ulaz
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Ukupno
+                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Izlaz
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Blagajnik
+                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Stanje
                 </th>
                 <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Akcije
@@ -120,27 +125,24 @@ export const InventoryBookPage: React.FC = () => {
             <tbody className="bg-white divide-y divide-gray-200">
               {entries.map((entry) => (
                 <tr key={entry.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    {entry.entryNumber}
-                  </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {new Date(entry.date).toLocaleDateString('hr-HR')}
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-500">
-                    <div className="font-medium">{entry.articleCode}</div>
-                    <div className="text-xs text-gray-400">{entry.articleName}</div>
+                  <td className="px-6 py-4 text-sm text-gray-900">
+                    <div className="font-medium">{entry.articleName}</div>
+                    {entry.notes && <div className="text-xs text-gray-400">{entry.notes}</div>}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {entry.quantitySold} kom
+                    {entry.documentNumber}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {entry.salePrice.toFixed(2)} HRK
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-green-600 font-medium">
+                    {entry.inQuantity > 0 ? `+${entry.inQuantity}` : ''}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    {entry.totalSale.toFixed(2)} HRK
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-red-600 font-medium">
+                    {entry.outQuantity > 0 ? `-${entry.outQuantity}` : ''}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {entry.cashier}
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-right font-semibold text-gray-900">
+                    {entry.balance}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
                     <button className="text-indigo-600 hover:text-indigo-900" title="Pregledaj">
@@ -151,7 +153,7 @@ export const InventoryBookPage: React.FC = () => {
               ))}
               {entries.length === 0 && (
                 <tr>
-                  <td colSpan={8} className="text-center py-8 text-gray-500">
+                  <td colSpan={7} className="text-center py-8 text-gray-500">
                     Nema zapisa u knjizi popisa.
                   </td>
                 </tr>
