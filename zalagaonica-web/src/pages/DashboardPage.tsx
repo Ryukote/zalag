@@ -132,6 +132,8 @@ const navigationData: NavCategory[] = [
   {
     title: 'Izvješća',
     items: [
+      { label: '📊 Admin nadzorna ploča', icon: ChartBarSquareIcon, href: '/admin-dashboard' },
+      { isSeparator: true, label: '', icon: () => null },
       { label: 'Cjenik', icon: TableCellsIcon, href: '#' },
       { label: 'Stanje skladišta', icon: ChartPieIcon, href: '#' },
       { label: 'Trenutno stanje skladišta', icon: ChartBarIcon, href: '#' },

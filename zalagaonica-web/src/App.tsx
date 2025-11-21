@@ -29,6 +29,7 @@ import CustomerDebtsPage from './pages/CustomerDebtsPage';
 import InventoryPage from './pages/InventoryPage';
 import EndOfWorkPage from './pages/EndOfWorkPage';
 import UnifiedDocumentsPage from './pages/UnifiedDocumentsPage';
+import AdminDashboardPage from './pages/AdminDashboardPage';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<DashboardPage />} />
+          <Route path="/admin-dashboard" element={<AdminDashboardPage />} />
           <Route path="/login" element={<LoginForm onLogin={(token) => {/* implementacija login */}} />} />
           <Route path="/komitenti" element={<ClientPage />} />
           <Route path="/artikli" element={<ArticleListPage />} />
