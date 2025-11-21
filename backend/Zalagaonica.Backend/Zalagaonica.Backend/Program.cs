@@ -1,6 +1,9 @@
 using Application.Reports;
 using Application.Services;
+using Application.Validators;
 using Domain.Entities;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -82,6 +85,11 @@ builder.Services.AddHttpClient();
 // ---------------------------------------------
 // Dodavanje MVC kontrolera, Swagger, itd.
 builder.Services.AddControllers();
+
+// FluentValidation
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddValidatorsFromAssemblyContaining<ClientValidator>();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddReportsModule();
