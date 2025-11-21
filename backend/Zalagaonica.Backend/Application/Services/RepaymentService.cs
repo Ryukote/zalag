@@ -56,6 +56,20 @@ public class RepaymentService
         return entity;
     }
 
+    public async Task<bool> UpdateAsync(LoanRepayment entity)
+    {
+        var existing = await _context.LoanRepayments.FindAsync(entity.Id);
+        if (existing == null) return false;
+
+        existing.Amount = entity.Amount;
+        existing.PaymentDate = entity.PaymentDate;
+        existing.Note = entity.Note;
+        existing.LoanId = entity.LoanId;
+
+        await _context.SaveChangesAsync();
+        return true;
+    }
+
     public async Task<bool> DeleteAsync(Guid id)
     {
         var entity = await _context.LoanRepayments.FindAsync(id);

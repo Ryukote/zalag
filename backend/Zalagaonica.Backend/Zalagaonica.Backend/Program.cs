@@ -1,6 +1,9 @@
 using Application.Reports;
 using Application.Services;
+using Application.Validators;
 using Domain.Entities;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -62,6 +65,20 @@ builder.Services.AddScoped<PurchaseRecordService>();
 builder.Services.AddScoped<PdfReportsService>();
 builder.Services.AddScoped<EmailService>();
 builder.Services.AddScoped<DeliveryCostService>();
+builder.Services.AddScoped<CustomerDebtService>();
+builder.Services.AddScoped<DailyClosingService>();
+builder.Services.AddScoped<ImportCalculationService>();
+builder.Services.AddScoped<InventoryBookService>();
+builder.Services.AddScoped<InventoryCountService>();
+builder.Services.AddScoped<LabelService>();
+builder.Services.AddScoped<PriceChangeLogService>();
+builder.Services.AddScoped<WarehouseCardService>();
+builder.Services.AddScoped<PurchaseService>();
+builder.Services.AddScoped<UserManagementService>();
+builder.Services.AddScoped<AnalyticsService>();
+builder.Services.AddScoped<UnifiedDocumentSearchService>();
+builder.Services.AddScoped<BookkeepingReportService>();
+builder.Services.AddScoped<BookkeepingPdfService>();
 
 
 // HttpClientFactory za vanjske HTTP pozive (npr. fiskalizacija, procjena)
@@ -70,6 +87,11 @@ builder.Services.AddHttpClient();
 // ---------------------------------------------
 // Dodavanje MVC kontrolera, Swagger, itd.
 builder.Services.AddControllers();
+
+// FluentValidation
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddValidatorsFromAssemblyContaining<ClientValidator>();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddReportsModule();
@@ -121,6 +143,7 @@ using (var scope = app.Services.CreateScope())
 
     db.Database.Migrate();
 
+    // Seed roles
     var adminRole = db.Roles.FirstOrDefault(r => r.Name == "Administrator");
     if (adminRole == null)
     {
@@ -130,9 +153,22 @@ using (var scope = app.Services.CreateScope())
             Description = "Sustavski administrator s punim pravima"
         };
         db.Roles.Add(adminRole);
-        db.SaveChanges();
     }
 
+    var workerRole = db.Roles.FirstOrDefault(r => r.Name == "Worker");
+    if (workerRole == null)
+    {
+        workerRole = new Role
+        {
+            Name = "Worker",
+            Description = "Radnik zalagaonice s ograničenim pravima"
+        };
+        db.Roles.Add(workerRole);
+    }
+
+    db.SaveChanges();
+
+    // Seed admin user
     var adminUser = db.UserAccounts.FirstOrDefault(u => u.Email == "admin@pawnshop.hr");
     if (adminUser == null)
     {

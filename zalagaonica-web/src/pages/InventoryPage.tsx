@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AppLayout } from '../components/layout/AppLayout';
-import { ArchiveBoxIcon, PlusIcon, DocumentArrowDownIcon, EyeIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
+import { ArchiveBoxIcon, PlusIcon, DocumentArrowDownIcon, EyeIcon, CheckCircleIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline';
+import LoadingSpinner from '../components/ui/LoadingSpinner';
+import { inventoryCountApi } from '../services/inventoryCountApi';
 
 interface InventoryItem {
   id: string;
@@ -16,32 +18,36 @@ interface InventoryItem {
 }
 
 export const InventoryPage: React.FC = () => {
-  const [inventoryItems, setInventoryItems] = useState<InventoryItem[]>([
-    {
-      id: '1',
-      inventoryNumber: 'INV-2025-001',
-      date: '2025-01-15',
-      articleCode: 'ART-001',
-      articleName: 'Zlatna narukvica 14K',
-      bookQuantity: 25,
-      physicalQuantity: 24,
-      difference: -1,
-      warehouse: 'Zalagaonica (ZG3)',
-      status: 'pending'
-    },
-    {
-      id: '2',
-      inventoryNumber: 'INV-2025-001',
-      date: '2025-01-15',
-      articleCode: 'ART-002',
-      articleName: 'Srebrna ogrlica',
-      bookQuantity: 50,
-      physicalQuantity: 52,
-      difference: 2,
-      warehouse: 'Zalagaonica (ZG3)',
-      status: 'verified'
+  const [inventoryItems, setInventoryItems] = useState<InventoryItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    loadInventoryItems();
+  }, []);
+
+  const loadInventoryItems = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const data = await inventoryCountApi.getAll();
+      setInventoryItems(data);
+    } catch (err: any) {
+      console.error('Error loading inventory items:', err);
+      setError(err.message || 'Greška pri učitavanju inventure');
+    } finally {
+      setLoading(false);
     }
-  ]);
+  };
+
+  const handleApprove = async (id: string) => {
+    try {
+      await inventoryCountApi.approve(id);
+      await loadInventoryItems();
+    } catch (err: any) {
+      alert('Greška pri odobravanju: ' + (err.message || 'Nepoznata greška'));
+    }
+  };
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -67,9 +73,31 @@ export const InventoryPage: React.FC = () => {
     return 'text-gray-600';
   };
 
+  if (loading) {
+    return (
+      <AppLayout>
+        <LoadingSpinner fullScreen message="Učitavanje inventure..." />
+      </AppLayout>
+    );
+  }
+
   return (
     <AppLayout>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {error && (
+          <div className="mb-4 bg-red-50 border-l-4 border-red-400 p-4">
+            <div className="flex">
+              <ExclamationCircleIcon className="h-5 w-5 text-red-400 mr-2" />
+              <div>
+                <p className="text-sm text-red-700">{error}</p>
+                <button onClick={loadInventoryItems} className="text-sm text-red-600 underline mt-1">
+                  Pokušaj ponovno
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         <div className="flex justify-between items-center mb-6">
           <div>
             <h1 className="text-3xl font-bold text-gray-900 flex items-center">
@@ -163,7 +191,11 @@ export const InventoryPage: React.FC = () => {
                         <EyeIcon className="h-5 w-5" />
                       </button>
                       {item.status !== 'approved' && (
-                        <button className="text-green-600 hover:text-green-900" title="Odobri">
+                        <button
+                          onClick={() => handleApprove(item.id)}
+                          className="text-green-600 hover:text-green-900"
+                          title="Odobri"
+                        >
                           <CheckCircleIcon className="h-5 w-5" />
                         </button>
                       )}

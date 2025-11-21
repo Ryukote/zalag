@@ -59,6 +59,29 @@ namespace Application.Services
             return MapToDto(purchase);
         }
 
+        public async Task<bool> UpdateAsync(Guid id, CreatePurchaseRecordDto dto)
+        {
+            var purchase = await _context.PurchaseRecords.FirstOrDefaultAsync(p => p.Id == id);
+
+            if (purchase == null)
+                return false;
+
+            purchase.ClientId = dto.ClientId;
+            purchase.ClientName = dto.ClientName;
+            purchase.ItemName = dto.ItemName;
+            purchase.ItemDescription = dto.ItemDescription;
+            purchase.EstimatedValue = dto.EstimatedValue;
+            purchase.PurchaseAmount = dto.PurchaseAmount;
+            purchase.TotalAmount = dto.TotalAmount;
+            purchase.PaymentDate = dto.PaymentDate;
+            purchase.ItemImagesJson = JsonSerializer.Serialize(dto.ItemImages);
+            purchase.WarrantyFilesJson = JsonSerializer.Serialize(dto.WarrantyFiles);
+            purchase.UpdatedAt = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
         public async Task<bool> DeleteAsync(Guid id)
         {
             var purchase = await _context.PurchaseRecords.FirstOrDefaultAsync(p => p.Id == id);

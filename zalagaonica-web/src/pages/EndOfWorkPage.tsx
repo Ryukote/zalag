@@ -1,24 +1,68 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AppLayout } from '../components/layout/AppLayout';
-import { PowerIcon, PrinterIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
+import { PowerIcon, PrinterIcon, CheckCircleIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline';
+import LoadingSpinner from '../components/ui/LoadingSpinner';
+import { dailyClosingApi } from '../services/dailyClosingApi';
 
 export const EndOfWorkPage: React.FC = () => {
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [workDay, setWorkDay] = useState({
+    id: '',
     date: new Date().toISOString().split('T')[0],
-    cashierName: 'Ana Anić',
-    startingCash: 1000,
-    totalSales: 8500,
-    totalExpenses: 200,
-    cashInRegister: 9300,
-    expectedCash: 9300,
+    cashierName: '',
+    startingCash: 0,
+    totalSales: 0,
+    totalExpenses: 0,
+    cashInRegister: 0,
+    expectedCash: 0,
     difference: 0,
     isClosed: false
   });
 
-  const handleCloseDay = () => {
-    if (window.confirm('Jeste li sigurni da želite zatvoriti radni dan? Ova akcija se ne može poništiti.')) {
+  useEffect(() => {
+    loadWorkDay();
+  }, []);
+
+  const loadWorkDay = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const today = new Date().toISOString().split('T')[0];
+      const data = await dailyClosingApi.getByDate(today);
+      const expectedCash = data.startingCash + data.totalSales - data.totalExpenses;
+      const difference = data.cashInRegister - expectedCash;
+      setWorkDay({
+        id: data.id,
+        date: data.date,
+        cashierName: data.cashierName,
+        startingCash: data.startingCash,
+        totalSales: data.totalSales,
+        totalExpenses: data.totalExpenses,
+        cashInRegister: data.cashInRegister,
+        expectedCash,
+        difference,
+        isClosed: data.isClosed
+      });
+    } catch (err: any) {
+      console.error('Error loading work day:', err);
+      setError(err.message || 'Greška pri učitavanju podataka o radnom danu');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCloseDay = async () => {
+    if (!window.confirm('Jeste li sigurni da želite zatvoriti radni dan? Ova akcija se ne može poništiti.')) {
+      return;
+    }
+
+    try {
+      await dailyClosingApi.update(workDay.id, { isClosed: true, closedAt: new Date().toISOString() });
       setWorkDay(prev => ({ ...prev, isClosed: true }));
       alert('Radni dan uspješno zatvoren!');
+    } catch (err: any) {
+      alert('Greška pri zatvaranju radnog dana: ' + (err.message || 'Nepoznata greška'));
     }
   };
 
@@ -26,9 +70,31 @@ export const EndOfWorkPage: React.FC = () => {
     alert('Ispis izvještaja o kraju rada...');
   };
 
+  if (loading) {
+    return (
+      <AppLayout>
+        <LoadingSpinner fullScreen message="Učitavanje podataka o radnom danu..." />
+      </AppLayout>
+    );
+  }
+
   return (
     <AppLayout>
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {error && (
+          <div className="mb-4 bg-red-50 border-l-4 border-red-400 p-4">
+            <div className="flex">
+              <ExclamationCircleIcon className="h-5 w-5 text-red-400 mr-2" />
+              <div>
+                <p className="text-sm text-red-700">{error}</p>
+                <button onClick={loadWorkDay} className="text-sm text-red-600 underline mt-1">
+                  Pokušaj ponovno
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         <div className="mb-6">
           <h1 className="text-3xl font-bold text-gray-900 flex items-center">
             <PowerIcon className="h-8 w-8 mr-3 text-indigo-600" />

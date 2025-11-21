@@ -45,15 +45,43 @@ namespace Zalagaonica.Backend.Controllers
             return CreatedAtAction(nameof(Get), new { id = purchase.Id }, purchase);
         }
 
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(Guid id, [FromBody] CreatePurchaseRecordDto dto)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
+                var success = await _purchaseRecordService.UpdateAsync(id, dto);
+
+                if (!success)
+                    return NotFound();
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Greška pri ažuriranju zapisa o otkupu", error = ex.Message });
+            }
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var success = await _purchaseRecordService.DeleteAsync(id);
+            try
+            {
+                var success = await _purchaseRecordService.DeleteAsync(id);
 
-            if (!success)
-                return NotFound();
+                if (!success)
+                    return NotFound();
 
-            return NoContent();
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Greška pri brisanju zapisa o otkupu", error = ex.Message });
+            }
         }
     }
 }

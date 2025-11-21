@@ -1,33 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AppLayout } from '../components/layout/AppLayout';
-import { PencilSquareIcon, PlusIcon, EyeIcon } from '@heroicons/react/24/outline';
-
-interface PriceChangeLog {
-  id: string;
-  documentNumber: string;
-  changeDate: string;
-  articleCode: string;
-  articleName: string;
-  oldPrice: number;
-  newPrice: number;
-  reason: string;
-  changedBy: string;
-}
+import { PencilSquareIcon, PlusIcon, EyeIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline';
+import LoadingSpinner from '../components/ui/LoadingSpinner';
+import { priceChangeLogApi, PriceChangeLog } from '../services/priceChangeLogApi';
 
 export const PriceChangeLogPage: React.FC = () => {
-  const [logs, setLogs] = useState<PriceChangeLog[]>([
-    {
-      id: '1',
-      documentNumber: 'ZPC-2025-001',
-      changeDate: '2025-01-15',
-      articleCode: 'ART-001',
-      articleName: 'Zlatna narukvica 14K',
-      oldPrice: 2300,
-      newPrice: 2500,
-      reason: 'Povećanje cijene zlata na tržištu',
-      changedBy: 'Marko Marić'
+  const [logs, setLogs] = useState<PriceChangeLog[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    loadLogs();
+  }, []);
+
+  const loadLogs = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const data = await priceChangeLogApi.getAll();
+      setLogs(data);
+    } catch (err: any) {
+      console.error('Error loading price change logs:', err);
+      setError(err.message || 'Greška pri učitavanju zapisnika promjene cijena');
+    } finally {
+      setLoading(false);
     }
-  ]);
+  };
 
   const getPriceChange = (oldPrice: number, newPrice: number) => {
     const change = ((newPrice - oldPrice) / oldPrice) * 100;
@@ -40,9 +38,31 @@ export const PriceChangeLogPage: React.FC = () => {
     };
   };
 
+  if (loading) {
+    return (
+      <AppLayout>
+        <LoadingSpinner fullScreen message="Učitavanje zapisnika promjene cijena..." />
+      </AppLayout>
+    );
+  }
+
   return (
     <AppLayout>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {error && (
+          <div className="mb-4 bg-red-50 border-l-4 border-red-400 p-4">
+            <div className="flex">
+              <ExclamationCircleIcon className="h-5 w-5 text-red-400 mr-2" />
+              <div>
+                <p className="text-sm text-red-700">{error}</p>
+                <button onClick={loadLogs} className="text-sm text-red-600 underline mt-1">
+                  Pokušaj ponovno
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         <div className="flex justify-between items-center mb-6">
           <div>
             <h1 className="text-3xl font-bold text-gray-900 flex items-center">

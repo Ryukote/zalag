@@ -1,33 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AppLayout } from '../components/layout/AppLayout';
-import { CalculatorIcon, PlusIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
-
-interface ImportCalculation {
-  id: string;
-  documentNumber: string;
-  documentDate: string;
-  supplierName: string;
-  totalAmount: number;
-  currency: string;
-  exchangeRate: number;
-  totalInLocalCurrency: number;
-  status: 'draft' | 'confirmed' | 'closed';
-}
+import { CalculatorIcon, PlusIcon, PencilSquareIcon, TrashIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline';
+import LoadingSpinner from '../components/ui/LoadingSpinner';
+import { importCalculationApi, ImportCalculation } from '../services/importCalculationApi';
 
 export const ImportCalculationPage: React.FC = () => {
-  const [calculations, setCalculations] = useState<ImportCalculation[]>([
-    {
-      id: '1',
-      documentNumber: 'IMP-2025-001',
-      documentDate: '2025-01-15',
-      supplierName: 'Dobavljač d.o.o.',
-      totalAmount: 5000,
-      currency: 'EUR',
-      exchangeRate: 7.53,
-      totalInLocalCurrency: 37650,
-      status: 'confirmed'
+  const [calculations, setCalculations] = useState<ImportCalculation[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    loadCalculations();
+  }, []);
+
+  const loadCalculations = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const data = await importCalculationApi.getAll();
+      setCalculations(data);
+    } catch (err: any) {
+      console.error('Error loading import calculations:', err);
+      setError(err.message || 'Greška pri učitavanju kalkulacija uvoza');
+    } finally {
+      setLoading(false);
     }
-  ]);
+  };
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -47,9 +45,31 @@ export const ImportCalculationPage: React.FC = () => {
     }
   };
 
+  if (loading) {
+    return (
+      <AppLayout>
+        <LoadingSpinner fullScreen message="Učitavanje kalkulacija uvoza..." />
+      </AppLayout>
+    );
+  }
+
   return (
     <AppLayout>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {error && (
+          <div className="mb-4 bg-red-50 border-l-4 border-red-400 p-4">
+            <div className="flex">
+              <ExclamationCircleIcon className="h-5 w-5 text-red-400 mr-2" />
+              <div>
+                <p className="text-sm text-red-700">{error}</p>
+                <button onClick={loadCalculations} className="text-sm text-red-600 underline mt-1">
+                  Pokušaj ponovno
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         <div className="flex justify-between items-center mb-6">
           <div>
             <h1 className="text-3xl font-bold text-gray-900 flex items-center">

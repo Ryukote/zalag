@@ -2,19 +2,21 @@ import React, { useState, useEffect, useMemo } from 'react';
 import AppLayout from '../components/layout/AppLayout';
 import Header from '../components/layout/Header';
 import { Pagination } from '../components/ui/Pagination';
-import { PlusIcon, ArrowDownTrayIcon } from '@heroicons/react/24/outline';
+import { PlusIcon, ArrowDownTrayIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline';
 import { ConfirmDialog } from '../components/ui/ConfirmDialog';
+import LoadingSpinner from '../components/ui/LoadingSpinner';
+import { outputDocumentApi } from '../services/outputDocumentApi';
 
-// --- INTERFACES AND MOCK DATA ---
+// --- INTERFACES ---
 
 export interface OutputDocument {
-  id: number;
-  clientName: string;         // Naziv komitenta
-  documentNumber: string;     // Broj izlaznog dokumenta
-  documentDate: string;       // Datum dokumenta
-  totalValue: number;         // Ukupna vrijednost
-  status: 'otvoren' | 'proknjižen'; // Status dokumenta
-  documentType: string;       // Tip dokumenta (npr. 'RAČUN', 'OTPREMNICA')
+  id: string;
+  clientName: string;
+  documentNumber: string;
+  documentDate: string;
+  totalValue: number;
+  status: 'otvoren' | 'proknjižen';
+  documentType: string;
   year: number;
   operator: string;
   note?: string;
@@ -22,69 +24,6 @@ export interface OutputDocument {
   totalWithTax: number;
   pretaxAmount: number;
 }
-
-const MOCK_DOCUMENTS: OutputDocument[] = [
-    {
-        id: 101,
-        clientName: 'Tvrtka Primjer A d.o.o.',
-        documentNumber: '101/2025',
-        documentDate: '2025-08-01',
-        totalValue: 125.00,
-        status: 'proknjižen',
-        documentType: 'RAČUN',
-        year: 2025,
-        operator: 'IVAN',
-        note: 'Plaćeno gotovinom',
-        isPosted: true,
-        totalWithTax: 156.25,
-        pretaxAmount: 125.00
-    },
-    {
-        id: 102,
-        clientName: 'Klijent B',
-        documentNumber: '102/2025',
-        documentDate: '2025-08-02',
-        totalValue: 50.00,
-        status: 'otvoren',
-        documentType: 'RAČUN',
-        year: 2025,
-        operator: 'MARIJA',
-        note: '',
-        isPosted: false,
-        totalWithTax: 62.50,
-        pretaxAmount: 50.00
-    },
-    {
-        id: 103,
-        clientName: 'Trgovina d.d.',
-        documentNumber: '103/2025',
-        documentDate: '2025-08-03',
-        totalValue: 300.00,
-        status: 'proknjižen',
-        documentType: 'OTPREMNICA',
-        year: 2025,
-        operator: 'IVAN',
-        note: 'Isporuka na adresu',
-        isPosted: true,
-        totalWithTax: 375.00,
-        pretaxAmount: 300.00
-    },
-    {
-        id: 104,
-        clientName: 'Klijent C',
-        documentNumber: '104/2025',
-        documentDate: '2025-08-04',
-        totalValue: 75.00,
-        status: 'otvoren',
-        documentType: 'RAČUN',
-        year: 2025,
-        operator: 'PETAR',
-        note: 'Hitna narudžba',
-        isPosted: false,
-        totalWithTax: 93.75,
-        pretaxAmount: 75.00
-    },
-];
 
 // Reusable utility function for formatting currency
 const formatCurrency = (amount: number) => {
@@ -149,7 +88,7 @@ interface OutputDocumentModalProps {
 }
 
 const defaultDocument: OutputDocument = {
-  id: 0,
+  id: '',
   clientName: '',
   documentNumber: '',
   documentDate: new Date().toISOString().split('T')[0],
@@ -240,7 +179,9 @@ const OutputDocumentModal: React.FC<OutputDocumentModalProps> = ({ isOpen, onClo
 
 // --- MAIN PAGE COMPONENT ---
 export const OutputDocumentsPage = () => {
-    const [documents, setDocuments] = useState<OutputDocument[]>(MOCK_DOCUMENTS);
+    const [documents, setDocuments] = useState<OutputDocument[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [statusFilter, setStatusFilter] = useState('svi');
     const [currentPage, setCurrentPage] = useState(1);
@@ -248,6 +189,24 @@ export const OutputDocumentsPage = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingDocument, setEditingDocument] = useState<OutputDocument | null>(null);
     const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+
+    useEffect(() => {
+        loadDocuments();
+    }, []);
+
+    const loadDocuments = async () => {
+        try {
+            setLoading(true);
+            setError(null);
+            const data = await outputDocumentApi.getAll();
+            setDocuments(data);
+        } catch (err: any) {
+            console.error('Error loading output documents:', err);
+            setError(err.message || 'Greška pri učitavanju izlaznih dokumenata');
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const handleOpenModal = () => {
         setEditingDocument(null);
@@ -269,23 +228,48 @@ export const OutputDocumentsPage = () => {
         setIsConfirmOpen(true);
     };
 
-    const handleConfirmSave = () => {
-        if (editingDocument) {
-            setDocuments(prevDocuments => {
-                if (editingDocument.id) {
-                    // Ažuriranje postojećeg dokumenta
-                    return prevDocuments.map(doc => 
-                        doc.id === editingDocument.id ? editingDocument : doc
-                    );
-                } else {
-                    // Dodavanje novog dokumenta
-                    const newId = prevDocuments.length > 0 ? Math.max(...prevDocuments.map(d => d.id)) + 1 : 1;
-                    return [...prevDocuments, { ...editingDocument, id: newId }];
-                }
-            });
+    const handleConfirmSave = async () => {
+        if (!editingDocument) return;
+
+        try {
+            if (editingDocument.id) {
+                // Update existing document
+                await outputDocumentApi.update(editingDocument.id, {
+                    id: editingDocument.id,
+                    clientName: editingDocument.clientName,
+                    documentNumber: editingDocument.documentNumber,
+                    documentDate: editingDocument.documentDate,
+                    totalValue: editingDocument.totalValue,
+                    status: editingDocument.status,
+                    documentType: editingDocument.documentType,
+                    operator: editingDocument.operator,
+                    note: editingDocument.note,
+                    isPosted: editingDocument.isPosted,
+                    totalWithTax: editingDocument.totalWithTax,
+                    pretaxAmount: editingDocument.pretaxAmount
+                });
+            } else {
+                // Create new document
+                await outputDocumentApi.create({
+                    clientName: editingDocument.clientName,
+                    documentNumber: editingDocument.documentNumber,
+                    documentDate: editingDocument.documentDate,
+                    totalValue: editingDocument.totalValue,
+                    status: editingDocument.status,
+                    documentType: editingDocument.documentType,
+                    operator: editingDocument.operator,
+                    note: editingDocument.note,
+                    isPosted: editingDocument.isPosted,
+                    totalWithTax: editingDocument.totalWithTax,
+                    pretaxAmount: editingDocument.pretaxAmount
+                });
+            }
+            setIsConfirmOpen(false);
+            handleCloseModal();
+            await loadDocuments();
+        } catch (err: any) {
+            alert('Greška pri spremanju: ' + (err.message || 'Nepoznata greška'));
         }
-        setIsConfirmOpen(false);
-        handleCloseModal();
     };
 
     const filteredDocuments = useMemo(() => {
@@ -309,13 +293,35 @@ export const OutputDocumentsPage = () => {
 
     const handleItemsPerPageChange = (value: number) => {
         setItemsPerPage(value);
-        setCurrentPage(1); // Resetiranje na prvu stranicu pri promjeni broja stavki
+        setCurrentPage(1);
     };
+
+    if (loading) {
+        return (
+            <AppLayout>
+                <LoadingSpinner fullScreen message="Učitavanje izlaznih dokumenata..." />
+            </AppLayout>
+        );
+    }
 
     return (
         <AppLayout>
             <div className="flex flex-col flex-1 p-8">
                 <Header title="Izlazni dokumenti" showBackButton />
+
+                {error && (
+                    <div className="mt-4 bg-red-50 border-l-4 border-red-400 p-4">
+                        <div className="flex">
+                            <ExclamationCircleIcon className="h-5 w-5 text-red-400 mr-2" />
+                            <div>
+                                <p className="text-sm text-red-700">{error}</p>
+                                <button onClick={loadDocuments} className="text-sm text-red-600 underline mt-1">
+                                    Pokušaj ponovno
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
 
                 {/* Sekcija s gumbima i filterima */}
                 <div className="mt-6 flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
