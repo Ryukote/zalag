@@ -2,50 +2,53 @@
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
-public class VehicleStatusService
+namespace Application.Services
 {
-    private readonly ApplicationDbContext _context;
-
-    public VehicleStatusService(ApplicationDbContext context)
+    public class VehicleStatusService
     {
-        _context = context;
-    }
+        private readonly ApplicationDbContext _context;
 
-    public async Task<List<VehicleStatus>> GetAllAsync()
-    {
-        return await _context.VehicleStatuses.AsNoTracking().ToListAsync();
-    }
+        public VehicleStatusService(ApplicationDbContext context)
+        {
+            _context = context;
+        }
 
-    public async Task<VehicleStatus?> GetByIdAsync(Guid id)
-    {
-        return await _context.VehicleStatuses.FindAsync(id);
-    }
+        public async Task<List<VehicleStatus>> GetAllAsync()
+        {
+            return await _context.VehicleStatuses.AsNoTracking().ToListAsync();
+        }
 
-    public async Task<VehicleStatus> CreateAsync(VehicleStatus entity)
-    {
-        entity.Id = Guid.NewGuid();
-        _context.VehicleStatuses.Add(entity);
-        await _context.SaveChangesAsync();
-        return entity;
-    }
+        public async Task<VehicleStatus?> GetByIdAsync(Guid id)
+        {
+            return await _context.VehicleStatuses.FindAsync(id);
+        }
 
-    public async Task<bool> UpdateAsync(VehicleStatus entity)
-    {
-        var existing = await _context.VehicleStatuses.FindAsync(entity.Id);
-        if (existing == null) return false;
+        public async Task<VehicleStatus> CreateAsync(VehicleStatus entity)
+        {
+            entity.Id = Guid.NewGuid();
+            _context.VehicleStatuses.Add(entity);
+            await _context.SaveChangesAsync();
+            return entity;
+        }
 
-        _context.Entry(existing).CurrentValues.SetValues(entity);
-        await _context.SaveChangesAsync();
-        return true;
-    }
+        public async Task<bool> UpdateAsync(VehicleStatus entity)
+        {
+            var existing = await _context.VehicleStatuses.FindAsync(entity.Id);
+            if (existing == null) return false;
 
-    public async Task<bool> DeleteAsync(Guid id)
-    {
-        var existing = await _context.VehicleStatuses.FindAsync(id);
-        if (existing == null) return false;
+            _context.Entry(existing).CurrentValues.SetValues(entity);
+            await _context.SaveChangesAsync();
+            return true;
+        }
 
-        _context.VehicleStatuses.Remove(existing);
-        await _context.SaveChangesAsync();
-        return true;
+        public async Task<bool> DeleteAsync(Guid id)
+        {
+            var existing = await _context.VehicleStatuses.FindAsync(id);
+            if (existing == null) return false;
+
+            _context.VehicleStatuses.Remove(existing);
+            await _context.SaveChangesAsync();
+            return true;
+        }
     }
 }
