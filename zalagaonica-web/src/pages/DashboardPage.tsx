@@ -120,6 +120,8 @@ const navigationData: NavCategory[] = [
   {
     title: 'Pretraživanje',
     items: [
+      { label: '🔍 Centralno pretraživanje dokumenata', icon: DocumentMagnifyingGlassIcon, href: '/pretraga-dokumenata' },
+      { isSeparator: true, label: '', icon: () => null },
       { label: 'Pretraživanje artikala', icon: MagnifyingGlassIcon, href: '#' },
       { label: 'Pretraživanje artikala po lot broju', icon: DocumentMagnifyingGlassIcon, href: '#' },
       { isSeparator: true, label: '', icon: () => null },

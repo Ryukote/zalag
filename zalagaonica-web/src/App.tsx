@@ -28,6 +28,7 @@ import WarehouseCardsPage from './pages/WarehouseCardsPage';
 import CustomerDebtsPage from './pages/CustomerDebtsPage';
 import InventoryPage from './pages/InventoryPage';
 import EndOfWorkPage from './pages/EndOfWorkPage';
+import UnifiedDocumentsPage from './pages/UnifiedDocumentsPage';
 
 function App() {
   return (
@@ -59,6 +60,7 @@ function App() {
           <Route path="/kupci-zaduzenja" element={<CustomerDebtsPage />} />
           <Route path="/inventura" element={<InventoryPage />} />
           <Route path="/kraj-rada" element={<EndOfWorkPage />} />
+          <Route path="/pretraga-dokumenata" element={<UnifiedDocumentsPage />} />
           <Route path="/reports/otkupni-blok/:id" element={<ReportPageWrapper type="otkupni-blok" />} />
           <Route path="/reports/racun-o-isplati/:id" element={<ReportPageWrapper type="racun-o-isplati" />} />
           <Route path="/reports/zahtjev-procjenu/:id" element={<ReportPageWrapper type="zahtjev-procjenu" />} />
