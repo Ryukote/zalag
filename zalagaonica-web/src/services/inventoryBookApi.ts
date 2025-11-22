@@ -15,23 +15,19 @@ export interface InventoryBook {
 
 export const inventoryBookApi = {
   getAll: async (): Promise<InventoryBook[]> => {
-    const response = await api.get('/InventoryBook');
-    return response.data;
+    return await api.get('/InventoryBook');
   },
 
   getById: async (id: string): Promise<InventoryBook> => {
-    const response = await api.get(`/InventoryBook/${id}`);
-    return response.data;
+    return await api.get(`/InventoryBook/${id}`);
   },
 
   getByArticle: async (articleId: string): Promise<InventoryBook[]> => {
-    const response = await api.get(`/InventoryBook/article/${articleId}`);
-    return response.data;
+    return await api.get(`/InventoryBook/article/${articleId}`);
   },
 
   create: async (entry: Partial<InventoryBook>): Promise<InventoryBook> => {
-    const response = await api.post('/InventoryBook', entry);
-    return response.data;
+    return await api.post('/InventoryBook', entry);
   },
 
   update: async (id: string, entry: Partial<InventoryBook>): Promise<void> => {

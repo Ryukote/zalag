@@ -16,28 +16,23 @@ export interface DailyClosing {
 
 export const dailyClosingApi = {
   getAll: async (): Promise<DailyClosing[]> => {
-    const response = await api.get('/DailyClosing');
-    return response.data;
+    return await api.get('/DailyClosing');
   },
 
   getById: async (id: string): Promise<DailyClosing> => {
-    const response = await api.get(`/DailyClosing/${id}`);
-    return response.data;
+    return await api.get(`/DailyClosing/${id}`);
   },
 
   getByDate: async (date: string): Promise<DailyClosing> => {
-    const response = await api.get(`/DailyClosing/date/${date}`);
-    return response.data;
+    return await api.get(`/DailyClosing/date/${date}`);
   },
 
   isDateClosed: async (date: string): Promise<{ date: string; isClosed: boolean }> => {
-    const response = await api.get(`/DailyClosing/check/${date}`);
-    return response.data;
+    return await api.get(`/DailyClosing/check/${date}`);
   },
 
   create: async (closing: Partial<DailyClosing>): Promise<DailyClosing> => {
-    const response = await api.post('/DailyClosing', closing);
-    return response.data;
+    return await api.post('/DailyClosing', closing);
   },
 
   update: async (id: string, closing: Partial<DailyClosing>): Promise<void> => {

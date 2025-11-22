@@ -52,8 +52,7 @@ export interface ClientStats {
 
 export const analyticsApi = {
   getDashboardStats: async (): Promise<DashboardStats> => {
-    const response = await api.get('/Analytics/dashboard');
-    return response.data;
+    return await api.get<DashboardStats>('/Analytics/dashboard');
   },
 
   getSalesChartData: async (startDate?: string, endDate?: string): Promise<SalesChartData[]> => {
@@ -61,32 +60,26 @@ export const analyticsApi = {
     if (startDate) params.append('startDate', startDate);
     if (endDate) params.append('endDate', endDate);
 
-    const response = await api.get(`/Analytics/sales-chart?${params.toString()}`);
-    return response.data;
+    return await api.get<SalesChartData[]>(`/Analytics/sales-chart?${params.toString()}`);
   },
 
   getTopProducts: async (count: number = 10): Promise<TopSellingProduct[]> => {
-    const response = await api.get(`/Analytics/top-products?count=${count}`);
-    return response.data;
+    return await api.get<TopSellingProduct[]>(`/Analytics/top-products?count=${count}`);
   },
 
   getWarehouseStats: async (): Promise<WarehouseStats[]> => {
-    const response = await api.get('/Analytics/warehouse-stats');
-    return response.data;
+    return await api.get<WarehouseStats[]>('/Analytics/warehouse-stats');
   },
 
   getPledgeStats: async (): Promise<PledgeStats[]> => {
-    const response = await api.get('/Analytics/pledge-stats');
-    return response.data;
+    return await api.get<PledgeStats[]>('/Analytics/pledge-stats');
   },
 
   getMonthlyRevenue: async (months: number = 12): Promise<MonthlyRevenue[]> => {
-    const response = await api.get(`/Analytics/monthly-revenue?months=${months}`);
-    return response.data;
+    return await api.get<MonthlyRevenue[]>(`/Analytics/monthly-revenue?months=${months}`);
   },
 
   getTopClients: async (count: number = 10): Promise<ClientStats[]> => {
-    const response = await api.get(`/Analytics/top-clients?count=${count}`);
-    return response.data;
+    return await api.get<ClientStats[]>(`/Analytics/top-clients?count=${count}`);
   }
 };

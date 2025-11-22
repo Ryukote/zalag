@@ -53,17 +53,14 @@ export interface SearchStats {
 
 export const unifiedSearchApi = {
   search: async (query: DocumentSearchQuery): Promise<UnifiedSearchResult> => {
-    const response = await api.post('/UnifiedSearch/search', query);
-    return response.data;
+    return await api.post('/UnifiedSearch/search', query);
   },
 
   quickSearch: async (searchTerm: string): Promise<QuickSearchResult[]> => {
-    const response = await api.get(`/UnifiedSearch/quick?q=${encodeURIComponent(searchTerm)}`);
-    return response.data;
+    return await api.get(`/UnifiedSearch/quick?q=${encodeURIComponent(searchTerm)}`);
   },
 
   getStats: async (): Promise<SearchStats> => {
-    const response = await api.get('/UnifiedSearch/stats');
-    return response.data;
+    return await api.get('/UnifiedSearch/stats');
   }
 };

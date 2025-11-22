@@ -14,18 +14,15 @@ export interface InventoryCount {
 
 export const inventoryCountApi = {
   getAll: async (): Promise<InventoryCount[]> => {
-    const response = await api.get('/InventoryCount');
-    return response.data;
+    return await api.get('/InventoryCount');
   },
 
   getById: async (id: string): Promise<InventoryCount> => {
-    const response = await api.get(`/InventoryCount/${id}`);
-    return response.data;
+    return await api.get(`/InventoryCount/${id}`);
   },
 
   create: async (count: Partial<InventoryCount>): Promise<InventoryCount> => {
-    const response = await api.post('/InventoryCount', count);
-    return response.data;
+    return await api.post('/InventoryCount', count);
   },
 
   update: async (id: string, count: Partial<InventoryCount>): Promise<void> => {
@@ -33,7 +30,7 @@ export const inventoryCountApi = {
   },
 
   approve: async (id: string): Promise<void> => {
-    await api.post(`/InventoryCount/${id}/approve`);
+    await api.post(`/InventoryCount/${id}/approve`, {});
   },
 
   delete: async (id: string): Promise<void> => {

@@ -14,23 +14,19 @@ export interface PriceChangeLog {
 
 export const priceChangeLogApi = {
   getAll: async (): Promise<PriceChangeLog[]> => {
-    const response = await api.get('/PriceChangeLog');
-    return response.data;
+    return await api.get('/PriceChangeLog');
   },
 
   getById: async (id: string): Promise<PriceChangeLog> => {
-    const response = await api.get(`/PriceChangeLog/${id}`);
-    return response.data;
+    return await api.get(`/PriceChangeLog/${id}`);
   },
 
   getByArticle: async (articleId: string): Promise<PriceChangeLog[]> => {
-    const response = await api.get(`/PriceChangeLog/article/${articleId}`);
-    return response.data;
+    return await api.get(`/PriceChangeLog/article/${articleId}`);
   },
 
   create: async (log: Partial<PriceChangeLog>): Promise<PriceChangeLog> => {
-    const response = await api.post('/PriceChangeLog', log);
-    return response.data;
+    return await api.post('/PriceChangeLog', log);
   },
 
   delete: async (id: string): Promise<void> => {

@@ -5,18 +5,15 @@ export type { Article };
 
 export const articleApi = {
   getAll: async () => {
-    const response = await api.get<Article[]>('/Article');
-    return response.data;
+    return await api.get<Article[]>('/Article');
   },
 
   getById: async (id: string) => {
-    const response = await api.get<Article>(`/Article/${id}`);
-    return response.data;
+    return await api.get<Article>(`/Article/${id}`);
   },
 
   create: async (article: Omit<Article, 'id' | 'createdAt' | 'updatedAt'>) => {
-    const response = await api.post<Article>('/Article', article);
-    return response.data;
+    return await api.post<Article>('/Article', article);
   },
 
   update: async (id: string, article: Article) => {

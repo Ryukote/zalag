@@ -8,18 +8,15 @@ export interface UnitOfMeasure {
 
 export const unitOfMeasureApi = {
   getAll: async () => {
-    const response = await api.get<UnitOfMeasure[]>('/UnitOfMeasure');
-    return response.data;
+    return await api.get<UnitOfMeasure[]>('/UnitOfMeasure');
   },
 
   getById: async (id: string) => {
-    const response = await api.get<UnitOfMeasure>(`/UnitOfMeasure/${id}`);
-    return response.data;
+    return await api.get<UnitOfMeasure>(`/UnitOfMeasure/${id}`);
   },
 
   create: async (unit: Omit<UnitOfMeasure, 'id'>) => {
-    const response = await api.post<UnitOfMeasure>('/UnitOfMeasure', unit);
-    return response.data;
+    return await api.post<UnitOfMeasure>('/UnitOfMeasure', unit);
   },
 
   update: async (id: string, unit: UnitOfMeasure) => {

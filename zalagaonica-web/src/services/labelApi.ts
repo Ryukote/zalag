@@ -14,23 +14,19 @@ export interface Label {
 
 export const labelApi = {
   getAll: async (): Promise<Label[]> => {
-    const response = await api.get('/Label');
-    return response.data;
+    return await api.get('/Label');
   },
 
   getById: async (id: string): Promise<Label> => {
-    const response = await api.get(`/Label/${id}`);
-    return response.data;
+    return await api.get(`/Label/${id}`);
   },
 
   getByArticle: async (articleId: string): Promise<Label[]> => {
-    const response = await api.get(`/Label/article/${articleId}`);
-    return response.data;
+    return await api.get(`/Label/article/${articleId}`);
   },
 
   create: async (label: Partial<Label>): Promise<Label> => {
-    const response = await api.post('/Label', label);
-    return response.data;
+    return await api.post('/Label', label);
   },
 
   update: async (id: string, label: Partial<Label>): Promise<void> => {
@@ -38,7 +34,7 @@ export const labelApi = {
   },
 
   markAsPrinted: async (id: string): Promise<void> => {
-    await api.post(`/Label/${id}/print`);
+    await api.post(`/Label/${id}/print`, {});
   },
 
   delete: async (id: string): Promise<void> => {

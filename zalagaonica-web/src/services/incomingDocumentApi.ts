@@ -13,18 +13,15 @@ export interface IncomingDocument {
 
 export const incomingDocumentApi = {
   getAll: async (): Promise<IncomingDocument[]> => {
-    const response = await api.get('/IncomingDocument');
-    return response.data;
+    return await api.get('/IncomingDocument');
   },
 
   getById: async (id: string): Promise<IncomingDocument> => {
-    const response = await api.get(`/IncomingDocument/${id}`);
-    return response.data;
+    return await api.get(`/IncomingDocument/${id}`);
   },
 
   create: async (document: Partial<IncomingDocument>): Promise<IncomingDocument> => {
-    const response = await api.post('/IncomingDocument', document);
-    return response.data;
+    return await api.post('/IncomingDocument', document);
   },
 
   update: async (id: string, document: Partial<IncomingDocument>): Promise<void> => {

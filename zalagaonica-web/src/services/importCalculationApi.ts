@@ -15,18 +15,15 @@ export interface ImportCalculation {
 
 export const importCalculationApi = {
   getAll: async (): Promise<ImportCalculation[]> => {
-    const response = await api.get('/ImportCalculation');
-    return response.data;
+    return await api.get('/ImportCalculation');
   },
 
   getById: async (id: string): Promise<ImportCalculation> => {
-    const response = await api.get(`/ImportCalculation/${id}`);
-    return response.data;
+    return await api.get(`/ImportCalculation/${id}`);
   },
 
   create: async (calculation: Partial<ImportCalculation>): Promise<ImportCalculation> => {
-    const response = await api.post('/ImportCalculation', calculation);
-    return response.data;
+    return await api.post('/ImportCalculation', calculation);
   },
 
   update: async (id: string, calculation: Partial<ImportCalculation>): Promise<void> => {

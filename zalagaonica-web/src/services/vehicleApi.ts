@@ -12,18 +12,15 @@ export interface Vehicle {
 
 export const vehicleApi = {
   getAll: async () => {
-    const response = await api.get<Vehicle[]>('/Vehicle');
-    return response.data;
+    return await api.get<Vehicle[]>('/Vehicle');
   },
 
   getById: async (id: string) => {
-    const response = await api.get<Vehicle>(`/Vehicle/${id}`);
-    return response.data;
+    return await api.get<Vehicle>(`/Vehicle/${id}`);
   },
 
   create: async (vehicle: Omit<Vehicle, 'id'>) => {
-    const response = await api.post<Vehicle>('/Vehicle', vehicle);
-    return response.data;
+    return await api.post<Vehicle>('/Vehicle', vehicle);
   },
 
   update: async (id: string, vehicle: Vehicle) => {

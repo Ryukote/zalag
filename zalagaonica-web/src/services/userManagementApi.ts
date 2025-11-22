@@ -25,18 +25,15 @@ export interface UpdateUserDto {
 
 export const userManagementApi = {
   getAllUsers: async (): Promise<UserAccount[]> => {
-    const response = await api.get('/UserManagement');
-    return response.data;
+    return await api.get('/UserManagement');
   },
 
   getUserById: async (id: string): Promise<UserAccount> => {
-    const response = await api.get(`/UserManagement/${id}`);
-    return response.data;
+    return await api.get(`/UserManagement/${id}`);
   },
 
   createUser: async (user: CreateUserDto): Promise<UserAccount> => {
-    const response = await api.post('/UserManagement', user);
-    return response.data;
+    return await api.post('/UserManagement', user);
   },
 
   updateUser: async (id: string, user: UpdateUserDto): Promise<void> => {

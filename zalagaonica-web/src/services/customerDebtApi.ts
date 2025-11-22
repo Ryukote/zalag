@@ -16,23 +16,19 @@ export interface CustomerDebt {
 
 export const customerDebtApi = {
   getAll: async (): Promise<CustomerDebt[]> => {
-    const response = await api.get('/CustomerDebt');
-    return response.data;
+    return await api.get('/CustomerDebt');
   },
 
   getOverdue: async (): Promise<CustomerDebt[]> => {
-    const response = await api.get('/CustomerDebt/overdue');
-    return response.data;
+    return await api.get('/CustomerDebt/overdue');
   },
 
   getById: async (id: string): Promise<CustomerDebt> => {
-    const response = await api.get(`/CustomerDebt/${id}`);
-    return response.data;
+    return await api.get(`/CustomerDebt/${id}`);
   },
 
   create: async (debt: Partial<CustomerDebt>): Promise<CustomerDebt> => {
-    const response = await api.post('/CustomerDebt', debt);
-    return response.data;
+    return await api.post('/CustomerDebt', debt);
   },
 
   update: async (id: string, debt: Partial<CustomerDebt>): Promise<void> => {

@@ -16,23 +16,19 @@ export interface WarehouseCard {
 
 export const warehouseCardApi = {
   getAll: async (): Promise<WarehouseCard[]> => {
-    const response = await api.get('/WarehouseCard');
-    return response.data;
+    return await api.get('/WarehouseCard');
   },
 
   getById: async (id: string): Promise<WarehouseCard> => {
-    const response = await api.get(`/WarehouseCard/${id}`);
-    return response.data;
+    return await api.get(`/WarehouseCard/${id}`);
   },
 
   getByArticle: async (articleId: string): Promise<WarehouseCard[]> => {
-    const response = await api.get(`/WarehouseCard/article/${articleId}`);
-    return response.data;
+    return await api.get(`/WarehouseCard/article/${articleId}`);
   },
 
   create: async (card: Partial<WarehouseCard>): Promise<WarehouseCard> => {
-    const response = await api.post('/WarehouseCard', card);
-    return response.data;
+    return await api.post('/WarehouseCard', card);
   },
 
   update: async (id: string, card: Partial<WarehouseCard>): Promise<void> => {

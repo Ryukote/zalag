@@ -49,18 +49,15 @@ export interface UpdateOutputDocumentDto {
 
 export const outputDocumentApi = {
   getAll: async (): Promise<OutputDocument[]> => {
-    const response = await api.get('/OutputDocument');
-    return response.data;
+    return await api.get('/OutputDocument');
   },
 
   getById: async (id: string): Promise<OutputDocument> => {
-    const response = await api.get(`/OutputDocument/${id}`);
-    return response.data;
+    return await api.get(`/OutputDocument/${id}`);
   },
 
   create: async (document: CreateOutputDocumentDto): Promise<OutputDocument> => {
-    const response = await api.post('/OutputDocument', document);
-    return response.data;
+    return await api.post('/OutputDocument', document);
   },
 
   update: async (id: string, document: UpdateOutputDocumentDto): Promise<void> => {
