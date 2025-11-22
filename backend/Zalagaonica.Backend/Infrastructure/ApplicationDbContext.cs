@@ -52,6 +52,7 @@ namespace Infrastructure
         // 📄 Dokumentacija / AI
         public DbSet<FileUpload> FileUploads => Set<FileUpload>();
         public DbSet<IncomingDocument> IncomingDocuments => Set<IncomingDocument>();
+        public DbSet<OutputDocument> OutputDocuments => Set<OutputDocument>();
         public DbSet<OutputDocumentItem> OutputDocumentItems => Set<OutputDocumentItem>();
         public DbSet<ItemData> ItemData => Set<ItemData>();
         public DbSet<GeminiValuation> GeminiValuations => Set<GeminiValuation>();

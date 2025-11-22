@@ -13,6 +13,9 @@ namespace Domain.Entities
         [Required, MaxLength(50)]
         public string EntryNumber { get; set; } = string.Empty;
 
+        [MaxLength(50)]
+        public string? DocumentNumber { get; set; }
+
         [Required, MaxLength(50)]
         public string ArticleCode { get; set; } = string.Empty;
 
@@ -21,6 +24,10 @@ namespace Domain.Entities
 
         [Required]
         public int QuantitySold { get; set; }
+
+        public int InQuantity { get; set; }
+        public int OutQuantity { get; set; }
+        public int Balance { get; set; }
 
         [Required]
         public decimal SalePrice { get; set; }

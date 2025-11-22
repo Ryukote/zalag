@@ -23,6 +23,13 @@ namespace Domain.Entities
         [MaxLength(50)]
         public string IdCardNumber { get; set; } = string.Empty; // OIB or ID card number
 
+        // Alias for compatibility
+        public string Oib
+        {
+            get => IdCardNumber;
+            set => IdCardNumber = value;
+        }
+
         [MaxLength(255)]
         public string? Email { get; set; }
 

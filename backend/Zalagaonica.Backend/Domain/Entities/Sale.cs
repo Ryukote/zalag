@@ -10,6 +10,13 @@ namespace Domain.Entities
         [Required]
         public DateTime SaleDate { get; set; } = DateTime.UtcNow;
 
+        // Alias for compatibility
+        public DateTime Date
+        {
+            get => SaleDate;
+            set => SaleDate = value;
+        }
+
         [Required]
         public int Quantity { get; set; } = 1;
 
@@ -28,6 +35,12 @@ namespace Domain.Entities
         [MaxLength(500)]
         public string? Notes { get; set; }
 
+        [MaxLength(500)]
+        public string? Description { get; set; }
+
+        [MaxLength(200)]
+        public string? CustomerName { get; set; }
+
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         // Veze
@@ -37,6 +50,13 @@ namespace Domain.Entities
 
         public Guid? ClientId { get; set; }
         public Client? Client { get; set; }
+
+        // Alias for compatibility
+        public Guid? CustomerId
+        {
+            get => ClientId;
+            set => ClientId = value;
+        }
 
         public Guid? UserId { get; set; }
     }

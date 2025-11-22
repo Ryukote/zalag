@@ -7,6 +7,8 @@ namespace Domain.Entities
         [Key]
         public Guid Id { get; set; }
 
+        public Guid? ArticleId { get; set; }
+
         [Required, MaxLength(50)]
         public string ArticleCode { get; set; } = string.Empty;
 
@@ -15,6 +17,18 @@ namespace Domain.Entities
 
         [Required, MaxLength(100)]
         public string Warehouse { get; set; } = string.Empty;
+
+        public DateTime Date { get; set; } = DateTime.UtcNow;
+
+        [MaxLength(50)]
+        public string? DocumentType { get; set; }
+
+        [MaxLength(50)]
+        public string? DocumentNumber { get; set; }
+
+        public int InQuantity { get; set; }
+        public int OutQuantity { get; set; }
+        public int Balance { get; set; }
 
         [Required]
         public int CurrentStock { get; set; }
@@ -29,6 +43,8 @@ namespace Domain.Entities
 
         [Required]
         public DateTime LastMovement { get; set; }
+
+        public string? Notes { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; }

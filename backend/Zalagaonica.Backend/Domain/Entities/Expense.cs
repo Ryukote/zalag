@@ -18,6 +18,13 @@ namespace Domain.Entities
 
         public DateTime Date { get; set; } = DateTime.UtcNow;
 
+        // Alias for compatibility
+        public DateTime ExpenseDate
+        {
+            get => Date;
+            set => Date = value;
+        }
+
         // Veze
         public Guid? EmployeeId { get; set; }
         public Employee? Employee { get; set; }

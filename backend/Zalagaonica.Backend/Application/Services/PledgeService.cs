@@ -116,7 +116,8 @@ namespace Application.Services
 
             // Transfer item to main warehouse as Article
             var mainWarehouse = await _context.Warehouses
-                .FirstOrDefaultAsync(w => w.Type == "main" || w.Name.ToLower().Contains("glavno"));
+                .Include(w => w.Type)
+                .FirstOrDefaultAsync(w => (w.Type != null && w.Type.Name == "main") || w.Name.ToLower().Contains("glavno"));
 
             var article = new Article
             {

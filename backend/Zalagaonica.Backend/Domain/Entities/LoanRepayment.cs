@@ -14,6 +14,13 @@ namespace Domain.Entities
         [Required]
         public DateTime PaymentDate { get; set; } = DateTime.UtcNow;
 
+        // Alias for compatibility
+        public DateTime RepaymentDate
+        {
+            get => PaymentDate;
+            set => PaymentDate = value;
+        }
+
         public string? Note { get; set; }
 
         // Relacija prema kreditu
