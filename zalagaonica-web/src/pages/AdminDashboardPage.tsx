@@ -80,7 +80,7 @@ export const AdminDashboardPage: React.FC = () => {
       // Load all analytics data in parallel
       const [statsData, salesChartData, topProductsData, revenueData] = await Promise.all([
         analyticsApi.getDashboardStats(),
-        analyticsApi.getSalesChart(),
+        analyticsApi.getSalesChartData(),
         analyticsApi.getTopProducts(10),
         analyticsApi.getMonthlyRevenue()
       ]);
@@ -90,11 +90,21 @@ export const AdminDashboardPage: React.FC = () => {
       // Format sales chart data
       setSalesData({
         labels: salesChartData.map((d: any) => new Date(d.date).toLocaleDateString('hr-HR')),
-        data: salesChartData.map((d: any) => d.totalSales)
+        data: salesChartData.map((d: any) => d.totalAmount)
       });
 
-      setTopProducts(topProductsData);
-      setMonthlyRevenue(revenueData);
+      // Map top products data to match local interface
+      setTopProducts(topProductsData.map((p: any) => ({
+        articleName: p.name,
+        quantitySold: p.totalSold,
+        totalRevenue: p.totalRevenue
+      })));
+
+      // Map monthly revenue data
+      setMonthlyRevenue(revenueData.map((r: any) => ({
+        month: `${r.year}-${String(r.month).padStart(2, '0')}`,
+        revenue: r.revenue
+      })));
 
     } catch (err: any) {
       console.error('Error loading dashboard data:', err);

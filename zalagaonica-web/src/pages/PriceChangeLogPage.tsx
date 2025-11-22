@@ -115,13 +115,13 @@ export const PriceChangeLogPage: React.FC = () => {
                 return (
                   <tr key={log.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                      {log.documentNumber}
+                      {log.id}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {new Date(log.changeDate).toLocaleDateString('hr-HR')}
                     </td>
                     <td className="px-6 py-4 text-sm text-gray-500">
-                      <div className="font-medium">{log.articleCode}</div>
+                      <div className="font-medium">{log.articleId}</div>
                       <div className="text-xs text-gray-400">{log.articleName}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">

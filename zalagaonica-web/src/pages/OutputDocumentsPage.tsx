@@ -5,25 +5,7 @@ import { Pagination } from '../components/ui/Pagination';
 import { PlusIcon, ArrowDownTrayIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline';
 import { ConfirmDialog } from '../components/ui/ConfirmDialog';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
-import { outputDocumentApi } from '../services/outputDocumentApi';
-
-// --- INTERFACES ---
-
-export interface OutputDocument {
-  id: string;
-  clientName: string;
-  documentNumber: string;
-  documentDate: string;
-  totalValue: number;
-  status: 'otvoren' | 'proknjižen';
-  documentType: string;
-  year: number;
-  operator: string;
-  note?: string;
-  isPosted: boolean;
-  totalWithTax: number;
-  pretaxAmount: number;
-}
+import { outputDocumentApi, OutputDocument } from '../services/outputDocumentApi';
 
 // Reusable utility function for formatting currency
 const formatCurrency = (amount: number) => {
@@ -100,7 +82,9 @@ const defaultDocument: OutputDocument = {
   note: '',
   isPosted: false,
   totalWithTax: 0,
-  pretaxAmount: 0
+  pretaxAmount: 0,
+  createdAt: new Date().toISOString(),
+  updatedAt: new Date().toISOString()
 };
 
 const OutputDocumentModal: React.FC<OutputDocumentModalProps> = ({ isOpen, onClose, onSave, initialData }) => {

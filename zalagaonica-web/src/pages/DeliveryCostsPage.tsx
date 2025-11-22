@@ -48,7 +48,7 @@ const DeliveryCostsPage: React.FC = () => {
   }
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this delivery cost?')) return;
+    if (!window.confirm('Are you sure you want to delete this delivery cost?')) return;
 
     try {
       await deliveryCostApi.remove(id);

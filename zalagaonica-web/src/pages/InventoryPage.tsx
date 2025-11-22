@@ -2,38 +2,25 @@ import React, { useState, useEffect } from 'react';
 import { AppLayout } from '../components/layout/AppLayout';
 import { ArchiveBoxIcon, PlusIcon, DocumentArrowDownIcon, EyeIcon, CheckCircleIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
-import { inventoryCountApi } from '../services/inventoryCountApi';
-
-interface InventoryItem {
-  id: string;
-  inventoryNumber: string;
-  date: string;
-  articleCode: string;
-  articleName: string;
-  bookQuantity: number;
-  physicalQuantity: number;
-  difference: number;
-  warehouse: string;
-  status: 'pending' | 'verified' | 'approved';
-}
+import { inventoryCountApi, InventoryCount } from '../services/inventoryCountApi';
 
 export const InventoryPage: React.FC = () => {
-  const [inventoryItems, setInventoryItems] = useState<InventoryItem[]>([]);
+  const [inventoryCounts, setInventoryCounts] = useState<InventoryCount[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    loadInventoryItems();
+    loadInventoryCounts();
   }, []);
 
-  const loadInventoryItems = async () => {
+  const loadInventoryCounts = async () => {
     try {
       setLoading(true);
       setError(null);
       const data = await inventoryCountApi.getAll();
-      setInventoryItems(data);
+      setInventoryCounts(data);
     } catch (err: any) {
-      console.error('Error loading inventory items:', err);
+      console.error('Error loading inventory counts:', err);
       setError(err.message || 'Greška pri učitavanju inventure');
     } finally {
       setLoading(false);
@@ -43,34 +30,10 @@ export const InventoryPage: React.FC = () => {
   const handleApprove = async (id: string) => {
     try {
       await inventoryCountApi.approve(id);
-      await loadInventoryItems();
+      await loadInventoryCounts();
     } catch (err: any) {
       alert('Greška pri odobravanju: ' + (err.message || 'Nepoznata greška'));
     }
-  };
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'pending': return 'bg-yellow-100 text-yellow-800';
-      case 'verified': return 'bg-blue-100 text-blue-800';
-      case 'approved': return 'bg-green-100 text-green-800';
-      default: return 'bg-gray-100 text-gray-800';
-    }
-  };
-
-  const getStatusText = (status: string) => {
-    switch (status) {
-      case 'pending': return 'Na čekanju';
-      case 'verified': return 'Provjereno';
-      case 'approved': return 'Odobreno';
-      default: return status;
-    }
-  };
-
-  const getDifferenceColor = (diff: number) => {
-    if (diff < 0) return 'text-red-600';
-    if (diff > 0) return 'text-green-600';
-    return 'text-gray-600';
   };
 
   if (loading) {
@@ -90,7 +53,7 @@ export const InventoryPage: React.FC = () => {
               <ExclamationCircleIcon className="h-5 w-5 text-red-400 mr-2" />
               <div>
                 <p className="text-sm text-red-700">{error}</p>
-                <button onClick={loadInventoryItems} className="text-sm text-red-600 underline mt-1">
+                <button onClick={loadInventoryCounts} className="text-sm text-red-600 underline mt-1">
                   Pokušaj ponovno
                 </button>
               </div>
@@ -125,25 +88,16 @@ export const InventoryPage: React.FC = () => {
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Broj inventure
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Datum
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Artikl
+                  Opis
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Skladište
+                  Broj artikala
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Knjižno stanje
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Fizičko stanje
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Razlika
+                  Ukupna vrijednost
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Status
@@ -154,35 +108,25 @@ export const InventoryPage: React.FC = () => {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {inventoryItems.map((item) => (
-                <tr key={item.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    {item.inventoryNumber}
+              {inventoryCounts.map((count) => (
+                <tr key={count.id} className="hover:bg-gray-50">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {new Date(count.date).toLocaleDateString('hr-HR')}
+                  </td>
+                  <td className="px-6 py-4 text-sm text-gray-900">
+                    {count.description}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {new Date(item.date).toLocaleDateString('hr-HR')}
+                    {count.totalItems}
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-500">
-                    <div className="font-medium">{item.articleCode}</div>
-                    <div className="text-xs text-gray-400">{item.articleName}</div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {item.warehouse}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {item.bookQuantity} kom
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    {item.physicalQuantity} kom
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
+                    {count.totalValue.toLocaleString('hr-HR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} HRK
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm">
-                    <span className={`font-bold ${getDifferenceColor(item.difference)}`}>
-                      {item.difference > 0 ? '+' : ''}{item.difference} kom
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm">
-                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(item.status)}`}>
-                      {getStatusText(item.status)}
+                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                      count.isApproved ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                    }`}>
+                      {count.isApproved ? 'Odobreno' : 'Na čekanju'}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
@@ -190,9 +134,9 @@ export const InventoryPage: React.FC = () => {
                       <button className="text-indigo-600 hover:text-indigo-900" title="Pregledaj">
                         <EyeIcon className="h-5 w-5" />
                       </button>
-                      {item.status !== 'approved' && (
+                      {!count.isApproved && (
                         <button
-                          onClick={() => handleApprove(item.id)}
+                          onClick={() => handleApprove(count.id)}
                           className="text-green-600 hover:text-green-900"
                           title="Odobri"
                         >
@@ -203,9 +147,9 @@ export const InventoryPage: React.FC = () => {
                   </td>
                 </tr>
               ))}
-              {inventoryItems.length === 0 && (
+              {inventoryCounts.length === 0 && (
                 <tr>
-                  <td colSpan={9} className="text-center py-8 text-gray-500">
+                  <td colSpan={6} className="text-center py-8 text-gray-500">
                     Nema zapisa o inventuri.
                   </td>
                 </tr>

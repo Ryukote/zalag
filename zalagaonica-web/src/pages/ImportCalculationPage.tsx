@@ -100,16 +100,7 @@ export const ImportCalculationPage: React.FC = () => {
                   Dobavljač
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Iznos
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Tečaj
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Ukupno (HRK)
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Status
+                  Ukupni trošak
                 </th>
                 <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Akcije
@@ -123,24 +114,13 @@ export const ImportCalculationPage: React.FC = () => {
                     {calc.documentNumber}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {new Date(calc.documentDate).toLocaleDateString('hr-HR')}
+                    {new Date(calc.date).toLocaleDateString('hr-HR')}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {calc.supplierName}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {calc.totalAmount.toFixed(2)} {calc.currency}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {calc.exchangeRate.toFixed(4)}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    {calc.totalInLocalCurrency.toFixed(2)} HRK
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm">
-                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(calc.status)}`}>
-                      {getStatusText(calc.status)}
-                    </span>
+                    {calc.totalCost.toFixed(2)} EUR
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
                     <div className="flex justify-center items-center space-x-2">
